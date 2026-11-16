@@ -1,0 +1,3590 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sublilaservinyl - Referencias</title>
+    <script>
+        // Si esta página se sirve desde la raíz del repositorio (gracias al
+        // DirectoryIndex de Apache) en vez de desde /app/, los recursos relativos
+        // (assets/, api.php, md.php) no se resuelven. En ese caso se redirige a la
+        // carpeta /app/ conservando la búsqueda (?b=) y la posición (#hash).
+        (function () {
+            try {
+                var ruta = window.location.pathname.replace(/\/+$/, '');
+                var yaEnApp = /\/app$/.test(ruta) || /\/app\/index\.html$/.test(window.location.pathname);
+                if (yaEnApp) return;
+                var destino = new URL('app/', window.location.href);
+                destino.search = window.location.search;
+                destino.hash = window.location.hash;
+                window.location.replace(destino.href);
+            } catch (error) { /* si falla el cálculo, continuar con la carga normal */ }
+        })();
+    </script>
+    <link rel="icon" type="image/svg+xml" href="assets/isotipo.svg">
+    <script src="assets/tema.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            color-scheme: dark;
+            --surface-rgb: 11, 25, 20;
+            --ink-rgb: 255, 255, 255;
+            --accent-rgb: 197, 161, 91;
+            --bg: #0b1914;
+            --bg-subtle: #10251e;
+            --fg: #e8e8ec;
+            --muted: #ababab;
+            --accent: #C5A15B;
+            --accent-soft: rgba(var(--accent-rgb), 0.14);
+            --border: #27443b;
+            --card: #14302a;
+            --header-offset: 94px;
+        }
+
+        [data-theme="claro"] {
+            color-scheme: light;
+            --bg: #F5F1E8;
+            --bg-subtle: #ECE6D8;
+            
+            --muted: #5C6B63;
+            --accent: #82602A;
+            --accent-soft: rgba(130, 96, 42, 0.14);
+            --border: #D8CFBC;
+            --card: #FFFFFF;
+            --surface-rgb: 245, 241, 232;
+            --ink-rgb: 18, 61, 50;
+            --accent-rgb: 130, 96, 42;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header fijo superior */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 14px 24px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(var(--surface-rgb), 0.86);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        /* Identidad de marca: logotipo Sublilaservinyl */
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            color: var(--fg);
+            text-decoration: none;
+            flex-shrink: 0;
+            padding: 2px 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .logo-img.logo-img--claro { display: none; }
+        [data-theme="claro"] .logo-img.logo-img--oscuro { display: none; }
+        [data-theme="claro"] .logo-img.logo-img--claro { display: block; }
+
+        .tema-toggle {
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--accent);
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .tema-toggle:hover {
+            border-color: var(--accent);
+            background: var(--accent-soft);
+        }
+
+        .tema-toggle:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        .logo:hover { opacity: 0.85; }
+
+        .logo-img {
+            display: block;
+            height: 40px;
+            width: auto;
+        }
+
+        .filter-section {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* Checkbox de filtro estilizado */
+        .filter-checkbox {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 14px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            color: var(--fg);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            user-select: none;
+            transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+        }
+
+        .filter-checkbox:hover {
+            border-color: var(--accent);
+        }
+
+        .filter-checkbox input[type="checkbox"] {
+            accent-color: var(--accent);
+            width: 16px;
+            height: 16px;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .filter-checkbox.is-checked {
+            background: var(--accent-soft);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Buscador en cabecera */
+        .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box .search-icon {
+            position: absolute;
+            left: 13px;
+            color: var(--muted);
+            font-size: 0.85rem;
+            pointer-events: none;
+        }
+
+        .search-box input {
+            padding: 8px 32px 8px 36px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--fg);
+            border-radius: 20px;
+            font-size: 0.875rem;
+            width: 250px;
+            transition: width 0.3s ease, border-color 0.2s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            width: 350px;
+            border-color: var(--accent);
+        }
+
+        .search-box input::placeholder {
+            color: var(--muted);
+        }
+
+        .search-clear {
+            position: absolute;
+            right: 8px;
+            width: 22px;
+            height: 22px;
+            border: none;
+            border-radius: 50%;
+            background: transparent;
+            color: var(--muted);
+            font-size: 1.5rem;
+            line-height: 1;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .search-clear.visible {
+            display: inline-flex;
+        }
+
+        .search-clear:hover {
+            color: var(--fg);
+            background: rgba(var(--ink-rgb), 0.08);
+        }
+
+        /* Combo box con las últimas búsquedas realizadas */
+        .search-history {
+            position: absolute;
+            top: calc(100% + 0px);
+            right: 0;
+            width: 350px;
+            max-width: min(350px, calc(100vw - 32px));
+            max-height: 320px;
+            overflow-y: auto;
+            padding: 2px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+            z-index: 60;
+        }
+
+        .search-history[hidden] {
+            display: none;
+        }
+
+        .search-history-title {
+            padding: 2px 2px 2px;
+            color: var(--muted);
+            font-size: 0.68rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .search-history-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 8px 10px;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            color: var(--fg);
+            font-family: inherit;
+            font-size: 0.85rem;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .search-history-item i {
+            flex-shrink: 0;
+            color: var(--muted);
+            font-size: 0.75rem;
+        }
+
+        .search-history-item .search-history-text {
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .search-history-item:hover,
+        .search-history-item.is-active {
+            background: var(--accent-soft);
+            color: var(--accent);
+        }
+
+        .search-history-item:hover i,
+        .search-history-item.is-active i {
+            color: var(--accent);
+        }
+
+        /* Contenido principal compensando header fijo */
+        main {
+            flex: 1;
+            max-width: 1200px;
+            width: 100%;
+            margin: var(--header-offset) auto 0 auto;
+            padding: 24px;
+        }
+
+        .section-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stats-pill {
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--muted);
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 4px 10px;
+            border-radius: 999px;
+        }
+
+        .root-docs {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        /* Botones para abrir archivos .md */
+        .md-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            background: var(--bg-subtle);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--fg);
+            font-size: 0.72rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+        }
+
+        .md-btn i {
+            color: var(--accent);
+        }
+
+        .md-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-soft);
+        }
+
+        /* Lista de carpetas */
+        .folders-list {
+            display: grid;
+            gap: 22px;
+        }
+
+        .folder-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .folder-card:hover {
+            border-color: var(--accent);
+        }
+
+        .folder-header {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .folder-header-main {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            min-width: 0;
+            flex: 1;
+        }
+
+        .folder-title-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        /* Botones para colapsar/expandir proyectos y subcarpetas */
+        .folder-collapse-btn,
+        .subfolder-collapse-btn {
+            width: 26px;
+            height: 26px;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 6px;
+            color: var(--muted);
+            font-size: 0.78rem;
+            cursor: pointer;
+            transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .folder-collapse-btn i,
+        .subfolder-collapse-btn i {
+            transition: transform 0.2s ease;
+        }
+
+        .folder-collapse-btn:hover,
+        .subfolder-collapse-btn:hover {
+            color: var(--accent);
+            background: var(--accent-soft);
+            border-color: var(--accent);
+        }
+
+        .folder-card.is-collapsed .folder-collapse-btn i {
+            transform: rotate(-90deg);
+        }
+
+        .folder-card.is-collapsed .folder-body {
+            display: none;
+        }
+
+        .folder-card.is-collapsed .folder-header {
+            border-bottom-color: transparent;
+        }
+
+        .subfolder-collapse-btn {
+            width: 22px;
+            height: 22px;
+            font-size: 0.7rem;
+        }
+
+        .subfolder-block.is-collapsed > .folder-images {
+            display: none;
+        }
+
+        .subfolder-block.is-collapsed .subfolder-collapse-btn i {
+            transform: rotate(-90deg);
+        }
+
+        .subfolder-block.is-collapsed .subfolder-header {
+            border-bottom-color: transparent;
+        }
+
+        .subfolder-block.is-hidden-by-parent {
+            display: none;
+        }
+
+        .folder-name {
+            font-weight: 600;
+            font-size: 0.92rem;
+            color: var(--fg);
+        }
+
+        .folder-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .folder-video-badge {
+            padding: 3px 8px;
+            background: rgba(var(--accent-rgb), 0.12);
+            border: 1px solid rgba(var(--accent-rgb), 0.35);
+            color: var(--accent);
+            font-size: 0.66rem;
+            border-radius: 4px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .folder-count-badge {
+            padding: 3px 8px;
+            background: var(--bg-subtle);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.68rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        /* Cuerpo de la tarjeta: grupos de la carpeta raíz y de sus subcarpetas */
+        .folder-body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .media-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .subfolder-block {
+            border-top: 1px solid var(--border);
+        }
+
+        .subfolder-block.depth-2 {
+            margin-left: 16px;
+            border-left: 1px solid var(--border);
+        }
+
+        .subfolder-block.depth-3,
+        .subfolder-block.depth-4,
+        .subfolder-block.depth-5 {
+            margin-left: 32px;
+            border-left: 1px solid var(--border);
+        }
+
+        .subfolder-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            padding: 9px 16px;
+            background: var(--bg-subtle);
+            border-left: 3px solid var(--accent);
+        }
+
+        .subfolder-name {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 0.82rem;
+            color: var(--fg);
+            min-width: 0;
+        }
+
+        .subfolder-name i {
+            color: var(--accent);
+            font-size: 0.8rem;
+        }
+
+        .subfolder-path {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 0.68rem;
+            color: var(--muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+
+        .subfolder-empty-badge {
+            padding: 2px 8px;
+            border: 1px dashed var(--border);
+            border-radius: 4px;
+            font-size: 0.64rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        /* Grid de elementos multimedia (imágenes y videos) por carpeta */
+        .folder-images {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+        }
+
+        .folder-image {
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-subtle);
+            position: relative;
+            overflow: hidden;
+            min-height: 220px;
+        }
+
+        .folder-image img {
+            width: 100%;
+            height: 360px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            display: block;
+            cursor: pointer;
+        }
+
+        .folder-image:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Estilos específicos para ítems de video (thumbnail generado o póster icono fallback) */
+        .folder-image.is-video {
+            cursor: pointer;
+        }
+
+        .video-fallback-poster {
+            width: 100%;
+            height: 360px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background:
+                radial-gradient(circle at 50% 42%, rgba(var(--accent-rgb), 0.16), transparent 65%),
+                linear-gradient(160deg, var(--card) 0%, var(--bg) 100%);
+            color: var(--fg);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .folder-image.is-video:hover .video-fallback-poster {
+            transform: scale(1.03);
+        }
+
+        .folder-image.is-video.has-video-thumb .video-fallback-poster {
+            display: none;
+        }
+
+        .video-poster-emblem {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(var(--accent-rgb), 0.65);
+            background: rgba(var(--surface-rgb), 0.65);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-size: 1.35rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+            padding-left: 3px;
+        }
+
+        .video-poster-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        /* Indicador central sutil de reproducción cuando hay thumbnail extraído */
+        .video-center-play {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(var(--surface-rgb), 0.68);
+            border: 1.5px solid rgba(var(--accent-rgb), 0.85);
+            color: var(--accent);
+            align-items: center;
+            justify-content: center;
+            font-size: 1.05rem;
+            padding-left: 3px;
+            z-index: 8;
+            pointer-events: none;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+        }
+
+        .folder-image.is-video.has-video-thumb .video-center-play {
+            display: flex;
+        }
+
+        .folder-image.is-video:hover .video-center-play {
+            background: var(--accent);
+            color: var(--bg);
+            transform: translate(-50%, -50%) scale(1.08);
+        }
+
+        /* Etiqueta de formato / duración de video superior izquierda */
+        .folder-image .video-badge {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: rgba(var(--surface-rgb), 0.78);
+            border: 1px solid rgba(var(--accent-rgb), 0.5);
+            color: var(--accent);
+            font-size: 0.58rem;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            z-index: 10;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            pointer-events: none;
+        }
+
+        .folder-image .video-badge.with-ref {
+            top: 30px;
+        }
+
+        /* Nombre del archivo en la parte inferior */
+        .folder-image .file-name {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 6px 8px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.55));
+            color: var(--fg);
+            font-size: 0.7rem;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        /* Etiqueta "Referencia" superior izquierda */
+        .folder-image .image-tag {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: var(--accent);
+            color: var(--bg);
+            font-size: 0.6rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* Icono lupa (imágenes) / Play (videos) en esquina superior derecha */
+        .folder-image .zoom-icon {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 32px;
+            height: 32px;
+            background: rgba(var(--surface-rgb), 0.72);
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-size: 0.85rem;
+            cursor: pointer;
+            z-index: 20;
+            transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+        }
+
+        .folder-image .zoom-icon.is-play {
+            padding-left: 2px;
+            font-size: 0.8rem;
+        }
+
+        .folder-image .zoom-icon:hover {
+            background: var(--accent);
+            color: var(--bg);
+            transform: scale(1.06);
+        }
+
+        /* Icono copiar al portapapeles (debajo de la lupa/play en desktop) */
+        .folder-image .copy-icon {
+            position: absolute;
+            top: 46px;
+            right: 8px;
+            width: 32px;
+            height: 32px;
+            background: rgba(var(--surface-rgb), 0.4);
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-size: 0.82rem;
+            cursor: pointer;
+            z-index: 20;
+            transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+        }
+
+        .folder-image .copy-icon:hover {
+            background: var(--accent);
+            color: var(--bg);
+            transform: scale(1.06);
+        }
+
+        /* Mensajes de estado vacío y carga */
+        .no-images,
+        .loading {
+            padding: 44px 20px;
+            text-align: center;
+            color: var(--muted);
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        .load-more-status {
+            text-align: center;
+            padding: 20px 12px;
+            color: var(--muted);
+            font-size: 0.82rem;
+        }
+
+        /* Modal visor de archivos .md */
+        .md-viewer {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1500;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .md-viewer.active {
+            display: flex;
+        }
+
+        .md-dialog {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            max-width: 860px;
+            width: 100%;
+            max-height: 88vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        .md-dialog-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-subtle);
+            gap: 12px;
+        }
+
+        .md-dialog-title {
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--fg);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .md-dialog-title i {
+            color: var(--accent);
+        }
+
+        .md-close {
+            width: 34px;
+            height: 34px;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            color: var(--fg);
+            font-size: 1.25rem;
+            line-height: 1;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+        }
+
+        .md-close:hover {
+            border-color: var(--accent);
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        .md-content {
+            overflow-y: auto;
+            padding: 24px;
+            color: var(--fg);
+            line-height: 1.65;
+            font-size: 0.92rem;
+        }
+
+        .md-content h1,
+        .md-content h2,
+        .md-content h3 {
+            margin-top: 1.2em;
+            margin-bottom: 0.6em;
+            color: var(--fg);
+        }
+
+        .md-content h1:first-child,
+        .md-content h2:first-child {
+            margin-top: 0;
+        }
+
+        .md-content h1 {
+            font-size: 1.45rem;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .md-content h2 {
+            font-size: 1.2rem;
+        }
+
+        .md-content h3 {
+            font-size: 1.05rem;
+        }
+
+        .md-content p {
+            margin: 0 0 12px 0;
+        }
+
+        .md-content a {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
+        .md-content code {
+            background: var(--bg-subtle);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.84rem;
+            color: var(--accent);
+        }
+
+        .md-content pre {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border);
+            padding: 14px 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 14px 0;
+        }
+
+        .md-content pre code {
+            padding: 0;
+            color: var(--fg);
+            background: transparent;
+        }
+
+        .md-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.85rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .md-content th,
+        .md-content td {
+            border: 1px solid var(--border);
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        .md-content th {
+            background: var(--bg-subtle);
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Lightbox popup para ampliar imagen o reproducir video */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-img,
+        .lightbox-video {
+            max-width: 90%;
+            max-height: 82vh;
+            object-fit: contain;
+            border-radius: 6px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.65);
+            user-select: none;
+        }
+
+        .lightbox-video {
+            background: #000000;
+            outline: none;
+        }
+
+        .lightbox-caption {
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--fg);
+            font-size: 0.85rem;
+            background: rgba(var(--surface-rgb), 0.88);
+            border: 1px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 999px;
+            max-width: 92%;
+        }
+
+        .lightbox-caption-text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .lightbox-counter {
+            color: var(--accent);
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .lightbox-copy-btn {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            border-radius: 999px;
+            padding: 3px 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            flex-shrink: 0;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .lightbox-copy-btn:hover {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            width: 42px;
+            height: 42px;
+            background: rgba(0, 0, 0, 0.65);
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            color: var(--accent);
+            font-size: 1.4rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            transition: background 0.2s ease, color 0.2s ease;
+            -webkit-touch-callout: none;
+            user-select: none;
+            z-index: 2002;
+        }
+
+        .lightbox-close:hover {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            background: rgba(0, 0, 0, 0.65);
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            color: var(--accent);
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease, color 0.2s ease;
+            z-index: 2001;
+            user-select: none;
+        }
+
+        .lightbox-nav.prev {
+            left: 24px;
+        }
+
+        .lightbox-nav.next {
+            right: 24px;
+        }
+
+        .lightbox-nav:hover {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: var(--accent);
+            color: var(--bg);
+            padding: 10px 18px;
+            border-radius: 24px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            z-index: 3000;
+            opacity: 0;
+            pointer-events: none;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        .toast.is-error {
+            background: #ef4444;
+            color: #ffffff;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Imagen marcada para copiar en conjunto */
+        .folder-image.is-copy-selected {
+            box-shadow: inset 0 0 0 2px var(--accent);
+        }
+
+        .folder-image.is-copy-selected .copy-icon {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        /* Barra flotante con el contador de imágenes seleccionadas */
+        .copy-tray {
+            position: fixed;
+            left: 50%;
+            bottom: 5px;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: calc(100vw - 24px);
+            padding: 8px 10px 8px 16px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+            z-index: 2500;
+            font-size: 0.82rem;
+            color: var(--fg);
+        }
+
+        .copy-tray[hidden] {
+            display: none;
+        }
+
+        .copy-tray-count {
+            white-space: nowrap;
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        .copy-tray-btn {
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            background: transparent;
+            color: var(--fg);
+            font-family: inherit;
+            font-size: 0.58rem;
+            font-weight: 500;
+            padding: 3px 3px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .copy-tray-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .copy-tray-btn.copy-tray-primary {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--bg);
+        }
+
+        .copy-tray-btn.copy-tray-primary:hover {
+            color: var(--bg);
+            filter: brightness(1.08);
+        }
+
+        @media (max-width: 480px) {
+            .copy-tray {
+                bottom: 5px;
+                gap: 8px;
+                padding: 7px 9px 7px 13px;
+            }
+
+            .copy-tray-count {
+                font-size: 0.76rem;
+            }
+
+            .copy-tray-btn {
+                padding: 6px 10px;
+                font-size: 0.74rem;
+            }
+        }
+
+        /* Tablet intermedia */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .folder-images {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        /* Responsive Móvil */
+        @media (max-width: 768px) {
+            header {
+                padding: 12px 16px;
+            }
+
+            .header-content {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .logo-img {
+                height: 34px;
+            }
+
+            .filter-section {
+                order: 2;
+                width: auto;
+                justify-content: center;
+            }
+
+            .filter-checkbox {
+                padding: 10px 16px;
+                font-size: 0.92rem;
+            }
+
+            .search-box {
+                order: 3;
+                width: 100%;
+            }
+
+            .search-history {
+                width: 100%;
+                max-width: none;
+            }
+
+            .search-box input,
+            .search-box input:focus {
+                width: 100%;
+                padding: 10px 34px 10px 36px;
+                font-size: 0.92rem;
+            }
+
+            main {
+                padding: 16px;
+            }
+
+            .folder-images {
+                grid-template-columns: 1fr;
+            }
+
+            .folder-image {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                min-height: 0;
+            }
+
+            .folder-image:last-child {
+                border-bottom: none;
+            }
+
+            .folder-image img {
+                width: 100%;
+                height: auto;
+                max-height: 420px;
+                object-fit: contain;
+            }
+
+            .video-fallback-poster {
+                height: 260px;
+            }
+
+            .folder-image .file-name {
+                display: block;
+                font-size: 0.72rem;
+                padding: 6px 10px;
+            }
+
+            .folder-image .image-tag {
+                font-size: 0.58rem;
+                padding: 2px 6px;
+                top: 8px;
+                left: 8px;
+            }
+
+            /* En móvil: copiar aparece al lado de la lupa / play con tamaño adaptado */
+            .folder-image .zoom-icon {
+                top: 8px;
+                right: 8px;
+                width: 28px;
+                height: 28px;
+                font-size: 0.8rem;
+            }
+
+            .folder-image .zoom-icon.is-play {
+                font-size: 0.75rem;
+            }
+
+            .folder-image .copy-icon {
+                top: 8px;
+                right: 40px;
+                width: 40px;
+                height: 40px;
+                font-size: 0.98rem;
+            }
+
+            .lightbox-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 0.95rem;
+            }
+
+            .lightbox-nav.prev {
+                left: 10px;
+            }
+
+            .lightbox-nav.next {
+                right: 10px;
+            }
+
+            .lightbox-close {
+                top: 14px;
+                right: 14px;
+                width: 38px;
+                height: 38px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="app-header">
+        <div class="header-content">
+            <a href="#" class="logo" aria-label="Sublilaservinyl - Inicio">
+                <img class="logo-img logo-img--oscuro" src="assets/logo.svg" alt="Sublilaservinyl" width="1200" height="390">
+                <img class="logo-img logo-img--claro" src="assets/logo-color.svg" alt="" aria-hidden="true" width="1200" height="390">
+            </a>
+
+            <div class="filter-section">
+                <button type="button" class="tema-toggle" data-tema-toggle aria-label="Cambiar a tema claro" title="Cambiar a tema claro"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+                <label class="filter-checkbox" id="filter-label">
+                    <input type="checkbox" id="filter-referencia">
+                    <span>Referencias</span>
+                </label>
+            </div>
+
+            <div class="search-box" id="search-box">
+                <i class="fas fa-magnifying-glass search-icon" aria-hidden="true"></i>
+                <input
+                    type="text"
+                    placeholder="Buscar archivo, video o carpeta..."
+                    id="search-input"
+                    autocomplete="off"
+                    aria-label="Buscar archivo, video o carpeta"
+                    aria-autocomplete="list"
+                    aria-controls="search-history"
+                    aria-expanded="false"
+                >
+                <button type="button" class="search-clear" id="search-clear" title="Limpiar búsqueda" aria-label="Limpiar búsqueda">&times;</button>
+                <div class="search-history" id="search-history" role="listbox" aria-label="Búsquedas recientes" hidden></div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="section-bar">
+            <div class="section-title">
+                <span>Proyectos</span>
+                <span class="stats-pill" id="stats-pill">Cargando...</span>
+            </div>
+            <div class="root-docs" id="root-docs"></div>
+        </div>
+
+        <div class="folders-list" id="folders-list">
+            <div class="loading">Cargando proyectos...</div>
+        </div>
+
+        <div class="load-more-status" id="scroll-sentinel" style="display: none;"></div>
+    </main>
+
+    <!-- Modal visor de archivos Markdown (.md) -->
+    <div class="md-viewer" id="md-viewer" role="dialog" aria-modal="true" aria-labelledby="md-title">
+        <div class="md-dialog">
+            <div class="md-dialog-header">
+                <div class="md-dialog-title" id="md-title">
+                    <i class="fas fa-file-lines"></i>
+                    <span id="md-title-text">Documento Markdown</span>
+                </div>
+                <button type="button" class="md-close" id="md-close" aria-label="Cerrar documento">&times;</button>
+            </div>
+            <div class="md-content" id="md-content"></div>
+        </div>
+    </div>
+
+    <!-- Lightbox popup para ampliar imagen o reproducir video -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Vista ampliada multimedia">
+        <button type="button" class="lightbox-close" id="lightbox-close" aria-label="Cerrar vista ampliada">&times;</button>
+        <button type="button" class="lightbox-nav prev" id="lightbox-prev" aria-label="Elemento anterior">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <img class="lightbox-img" id="lightbox-img" src="" alt="">
+        <video
+            class="lightbox-video"
+            id="lightbox-video"
+            controls
+            playsinline
+            webkit-playsinline
+            preload="metadata"
+            style="display: none;"
+        ></video>
+        <button type="button" class="lightbox-nav next" id="lightbox-next" aria-label="Elemento siguiente">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+        <div class="lightbox-caption" id="lightbox-caption">
+            <span class="lightbox-counter" id="lightbox-counter"></span>
+            <span class="lightbox-caption-text" id="lightbox-caption-text"></span>
+            <button type="button" class="lightbox-copy-btn" id="lightbox-copy-btn" title="Copiar al portapapeles">
+                <i class="fas fa-copy"></i> Copiar
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast para notificaciones de portapapeles -->
+    <div class="toast" id="toast" role="status" aria-live="polite">Copiado al portapapeles</div>
+
+    <!-- Barra de imágenes seleccionadas para copiar en conjunto -->
+    <div class="copy-tray" id="copy-tray" role="status" aria-live="polite" hidden>
+        <span class="copy-tray-count" id="copy-tray-count">0 imágenes listas</span>
+        <button type="button" class="copy-tray-btn copy-tray-primary" id="copy-tray-copy">Copiar todo</button>
+        <button type="button" class="copy-tray-btn" id="copy-tray-clear">Vaciar</button>
+    </div>
+
+    <script src="assets/vendor/marked.min.js"></script>
+    <script src="assets/vendor/purify.min.js"></script>
+    <script>
+        // API endpoint
+        const API_URL = 'api.php';
+
+        // La app controla manualmente la restauración del scroll (posición persistida)
+        if ('scrollRestoration' in window.history) {
+            window.history.scrollRestoration = 'manual';
+        }
+
+        // State (variables especificadas en especificacion.md)
+        let allFolders = [];                    // Carpetas cargadas desde API
+        let currentFilter = 'hide-reference';   // Filtro actual ('reference' | 'hide-reference')
+        let currentSearch = '';                 // Término de búsqueda actual
+        let lightboxImages = [];                // Array de elementos multimedia filtrados (imágenes y videos)
+        let lightboxCurrentIndex = 0;           // Índice actual en lightbox
+        let imagesRendered = 0;                 // Contador de elementos renderizados en DOM
+        let batchSize = 50;                     // Tamaño de lote para lazy load (50 por lote)
+        let isLoadingMore = false;              // Flag para evitar cargas concurrentes
+        let imagesLoaded = 0;                   // Contador de elementos cargados
+        let totalImagesToLoad = 50;             // Límite acumulado de elementos a renderizar
+        let imagesRendering = false;            // Flag para evitar rendering concurrente
+
+        // Referencias auxiliares internas y caché en memoria de miniaturas de video
+        let rootMdFiles = [];
+        let infiniteObserver = null;
+        let scrollFallbackAttached = false;
+        let toastTimer = null;
+        let currentMdPath = '';
+
+        // Selección de imágenes para copiar en conjunto (clave: URL absoluta)
+        const copySelection = new Map();
+
+        const videoThumbCache = new Map(); // url -> { dataUrl: string|null, durationText: string, failed: boolean }
+        const videoThumbQueue = [];
+        let activeVideoThumbWorkers = 0;
+        const MAX_VIDEO_THUMB_WORKERS = 2;
+        let videoThumbObserver = null;
+
+        // Elementos del DOM
+        const appHeader = document.getElementById('app-header');
+        const foldersList = document.getElementById('folders-list');
+        const statsPill = document.getElementById('stats-pill');
+        const rootDocs = document.getElementById('root-docs');
+        const scrollSentinel = document.getElementById('scroll-sentinel');
+        const filterCheckbox = document.getElementById('filter-referencia');
+        const filterLabel = document.getElementById('filter-label');
+        const searchInput = document.getElementById('search-input');
+        const searchClear = document.getElementById('search-clear');
+        const searchBox = document.getElementById('search-box');
+        const searchHistory = document.getElementById('search-history');
+
+        const mdViewer = document.getElementById('md-viewer');
+        const mdContent = document.getElementById('md-content');
+        const mdTitleText = document.getElementById('md-title-text');
+        const mdClose = document.getElementById('md-close');
+
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxVideo = document.getElementById('lightbox-video');
+        const lightboxClose = document.getElementById('lightbox-close');
+        const lightboxPrev = document.getElementById('lightbox-prev');
+        const lightboxNext = document.getElementById('lightbox-next');
+        const lightboxCounter = document.getElementById('lightbox-counter');
+        const lightboxCaptionText = document.getElementById('lightbox-caption-text');
+        const lightboxCopyBtn = document.getElementById('lightbox-copy-btn');
+
+        const toast = document.getElementById('toast');
+        const copyTray = document.getElementById('copy-tray');
+        const copyTrayCount = document.getElementById('copy-tray-count');
+        const copyTrayCopyBtn = document.getElementById('copy-tray-copy');
+        const copyTrayClearBtn = document.getElementById('copy-tray-clear');
+
+        const VIDEO_EXTENSIONS = new Set(['mp4', 'webm', 'mov', 'm4v', 'ogv', 'ogg', 'avi', 'mkv']);
+
+        // ------------------------------------------------------------------
+        // Persistencia de estado (filtro, búsqueda y posición de lectura)
+        // ------------------------------------------------------------------
+        const STORAGE_KEY = 'sublilaservinyl.state.v1';
+        const MAX_RESTORE_BATCHES = 80; // Tope de seguridad al reconstruir la posición guardada
+        const MAX_RECENT_SEARCHES = 10; // Búsquedas recientes guardadas en el combo box
+
+        let persistedState = {
+            filter: 'hide-reference',
+            search: '',
+            scrollY: 0,
+            renderedCount: batchSize,
+            recentSearches: []
+        };
+        let scrollSaveTimer = null;
+        let scrollTrackingEnabled = false;
+        let pendingInitialScrollY = null;
+        let pendingInitialRenderCount = null;
+        let recentSearches = [];
+        let searchHistoryActiveIndex = -1;
+
+        function readPersistedState() {
+            try {
+                const raw = window.localStorage.getItem(STORAGE_KEY);
+                if (!raw) return null;
+                const data = JSON.parse(raw);
+                return data && typeof data === 'object' ? data : null;
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function writePersistedState(patch = {}) {
+            persistedState = { ...persistedState, ...patch, updatedAt: Date.now() };
+            try {
+                window.localStorage.setItem(STORAGE_KEY, JSON.stringify(persistedState));
+            } catch (error) {
+                // localStorage no disponible (modo privado, cuota, etc.)
+            }
+        }
+
+        // Normaliza la lista de búsquedas recientes (textos válidos, sin duplicados)
+        function normalizeRecentSearches(value) {
+            if (!Array.isArray(value)) return [];
+            const seen = new Set();
+            const result = [];
+            for (const entry of value) {
+                if (typeof entry !== 'string') continue;
+                const term = entry.trim();
+                if (!term) continue;
+                const key = term.toLowerCase();
+                if (seen.has(key)) continue;
+                seen.add(key);
+                result.push(term);
+                if (result.length >= MAX_RECENT_SEARCHES) break;
+            }
+            return result;
+        }
+
+        // Guarda un término en el historial (el más reciente primero)
+        function recordRecentSearch(term) {
+            const value = typeof term === 'string' ? term.trim() : '';
+            if (!value) return;
+            const key = value.toLowerCase();
+            recentSearches = [value, ...recentSearches.filter(item => item.toLowerCase() !== key)]
+                .slice(0, MAX_RECENT_SEARCHES);
+            persistedState.recentSearches = recentSearches.slice();
+            writePersistedState({ recentSearches: recentSearches.slice() });
+            renderSearchHistory();
+        }
+
+        function renderSearchHistory() {
+            if (!searchHistory) return;
+
+            if (recentSearches.length === 0) {
+                searchHistory.innerHTML = '';
+                searchHistory.hidden = true;
+                searchHistoryActiveIndex = -1;
+                if (searchInput) searchInput.setAttribute('aria-expanded', 'false');
+                return;
+            }
+
+            const itemsHtml = recentSearches.map((term, index) => `
+                <button
+                    type="button"
+                    class="search-history-item"
+                    role="option"
+                    id="search-history-option-${index}"
+                    data-search-term="${escapeHtml(term)}"
+                    data-index="${index}"
+                    aria-selected="false"
+                >
+                    <i class="fas fa-clock-rotate-left" aria-hidden="true"></i>
+                    <span class="search-history-text">${escapeHtml(term)}</span>
+                </button>
+            `).join('');
+
+            searchHistory.innerHTML = `
+                <div class="search-history-title">Búsquedas recientes</div>
+                ${itemsHtml}
+            `;
+            searchHistoryActiveIndex = -1;
+        }
+
+        function setActiveHistoryItem(index) {
+            if (!searchHistory) return;
+            const items = searchHistory.querySelectorAll('.search-history-item');
+            if (items.length === 0) {
+                searchHistoryActiveIndex = -1;
+                return;
+            }
+            const bounded = Math.max(-1, Math.min(index, items.length - 1));
+            searchHistoryActiveIndex = bounded;
+            items.forEach((item, i) => {
+                const isActive = i === bounded;
+                item.classList.toggle('is-active', isActive);
+                item.setAttribute('aria-selected', String(isActive));
+            });
+            if (bounded >= 0) {
+                const active = items[bounded];
+                if (searchInput) {
+                    searchInput.setAttribute('aria-activedescendant', active.id);
+                }
+                if (typeof active.scrollIntoView === 'function') {
+                    active.scrollIntoView({ block: 'nearest' });
+                }
+            } else if (searchInput) {
+                searchInput.removeAttribute('aria-activedescendant');
+            }
+        }
+
+        function openSearchHistory() {
+            if (!searchHistory || recentSearches.length === 0) return;
+            searchHistory.hidden = false;
+            if (searchInput) searchInput.setAttribute('aria-expanded', 'true');
+            setActiveHistoryItem(-1);
+        }
+
+        function closeSearchHistory() {
+            if (!searchHistory) return;
+            searchHistory.hidden = true;
+            searchHistoryActiveIndex = -1;
+            if (searchInput) {
+                searchInput.setAttribute('aria-expanded', 'false');
+                searchInput.removeAttribute('aria-activedescendant');
+            }
+        }
+
+        // Aplica una búsqueda elegida del historial: rellena, filtra, sincroniza URL y cierra
+        function applyRecentSearch(term) {
+            if (!searchInput) return;
+            searchInput.value = term;
+            filterBySearch();
+            recordRecentSearch(term);
+            closeSearchHistory();
+            searchInput.focus();
+        }
+
+        function isAppManagedUrlState() {
+            return Boolean(window.history.state && window.history.state.sublilaservinyl === true);
+        }
+
+        // Marca la URL como generada por la propia app para distinguirla de un enlace externo
+        function markUrlAsAppState() {
+            try {
+                const url = new URL(window.location.href);
+                if (!url.searchParams.get('b')) return;
+                if (isAppManagedUrlState()) return;
+                window.history.replaceState({ sublilaservinyl: true }, '', url.href);
+            } catch (error) {
+                // URL no disponible
+            }
+        }
+
+        // Sincroniza el buscador con ?b= sin recargar la página
+        function syncUrlWithSearch() {
+            try {
+                const url = new URL(window.location.href);
+                if (currentSearch) {
+                    url.searchParams.set('b', currentSearch);
+                } else {
+                    url.searchParams.delete('b');
+                }
+                window.history.replaceState({ sublilaservinyl: true }, '', url.href);
+            } catch (error) {
+                // Sincronización de URL no disponible
+            }
+        }
+
+        function saveScrollPosition() {
+            if (!scrollTrackingEnabled) return;
+            writePersistedState({
+                scrollY: Math.round(window.scrollY || window.pageYOffset || 0),
+                renderedCount: imagesRendered
+            });
+            markUrlAsAppState();
+        }
+
+        function scheduleScrollSave() {
+            if (!scrollTrackingEnabled) return;
+            if (scrollSaveTimer) {
+                clearTimeout(scrollSaveTimer);
+            }
+            scrollSaveTimer = setTimeout(saveScrollPosition, 300);
+        }
+
+        // Lee ?b= y el estado guardado resolviendo la prioridad entre ambos:
+        // - Enlace externo con ?b=: la búsqueda manda y se empieza arriba.
+        // - URL escrita por la propia app o sin ?b=: se restaura la posición guardada.
+        function resolveInitialState() {
+            const stored = readPersistedState();
+            const storedFilter = stored && stored.filter === 'reference' ? 'reference' : 'hide-reference';
+            const storedSearch = stored && typeof stored.search === 'string' ? stored.search : '';
+            const storedScrollY = stored && Number.isFinite(Number(stored.scrollY))
+                ? Math.max(0, Math.round(Number(stored.scrollY)))
+                : 0;
+            const storedRenderedCount = stored && Number.isFinite(Number(stored.renderedCount))
+                ? Math.max(batchSize, Math.round(Number(stored.renderedCount)))
+                : batchSize;
+            const storedRecentSearches = normalizeRecentSearches(stored && stored.recentSearches);
+
+            let urlSearch = '';
+            try {
+                urlSearch = (new URL(window.location.href).searchParams.get('b') || '').trim();
+            } catch (error) {
+                urlSearch = '';
+            }
+
+            recentSearches = storedRecentSearches;
+            persistedState = {
+                filter: storedFilter,
+                search: storedSearch,
+                scrollY: storedScrollY,
+                renderedCount: storedRenderedCount,
+                recentSearches: storedRecentSearches.slice()
+            };
+
+            if (urlSearch) {
+                const fromOwnUrl = isAppManagedUrlState();
+                if (!fromOwnUrl) {
+                    // Enlace externo: registrar esta búsqueda como última y empezar desde arriba
+                    persistedState.search = urlSearch;
+                    persistedState.scrollY = 0;
+                    persistedState.renderedCount = batchSize;
+                    persistedState.recentSearches = normalizeRecentSearches([urlSearch, ...recentSearches]);
+                    recentSearches = persistedState.recentSearches.slice();
+                    writePersistedState();
+                }
+                return {
+                    filter: storedFilter,
+                    search: urlSearch,
+                    scrollY: fromOwnUrl ? storedScrollY : 0,
+                    renderedCount: fromOwnUrl ? storedRenderedCount : batchSize
+                };
+            }
+
+            return {
+                filter: storedFilter,
+                search: storedSearch,
+                scrollY: storedScrollY,
+                renderedCount: storedRenderedCount
+            };
+        }
+
+        function nextAnimationFrame() {
+            return new Promise(resolve => {
+                let settled = false;
+                const finish = () => {
+                    if (settled) return;
+                    settled = true;
+                    resolve();
+                };
+                if (typeof window.requestAnimationFrame === 'function') {
+                    window.requestAnimationFrame(() => window.requestAnimationFrame(finish));
+                }
+                setTimeout(finish, 120);
+            });
+        }
+
+        // Reconstruye los lotes necesarios y devuelve la vista a la posición guardada
+        async function restoreScrollPosition(targetY) {
+            const desired = Math.max(0, Math.round(Number(targetY) || 0));
+            await nextAnimationFrame();
+
+            let guard = 0;
+            while (
+                guard < MAX_RESTORE_BATCHES &&
+                (document.documentElement.scrollHeight - window.innerHeight) < desired
+            ) {
+                if (imagesRendered >= lightboxImages.length) break;
+                totalImagesToLoad += batchSize;
+                renderFolders();
+                guard++;
+            }
+
+            window.scrollTo(0, desired);
+            scrollTrackingEnabled = true;
+
+            // Segunda pasada para compensar el cambio de altura cuando cargan las imágenes.
+            // Se cancela si el usuario empieza a desplazarse manualmente.
+            let userInteracted = false;
+            const cancelInteraction = () => {
+                userInteracted = true;
+            };
+            window.addEventListener('wheel', cancelInteraction, { once: true, passive: true });
+            window.addEventListener('touchstart', cancelInteraction, { once: true, passive: true });
+            window.addEventListener('keydown', cancelInteraction, { once: true });
+
+            setTimeout(() => {
+                window.removeEventListener('wheel', cancelInteraction);
+                window.removeEventListener('touchstart', cancelInteraction);
+                window.removeEventListener('keydown', cancelInteraction);
+                if (!userInteracted) {
+                    window.scrollTo(0, desired);
+                }
+            }, 400);
+        }
+
+        // Escapado seguro para prevenir XSS en contenido dinámico
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function escapeCssSelector(value) {
+            if (window.CSS && typeof window.CSS.escape === 'function') {
+                return window.CSS.escape(String(value));
+            }
+            return String(value).replace(/["\\]/g, '\\$&');
+        }
+
+        function isVideoItem(item) {
+            if (!item) return false;
+            if (item.isVideo || item.type === 'video') return true;
+            const ext = String(item.extension || '').toLowerCase();
+            if (VIDEO_EXTENSIONS.has(ext)) return true;
+            const src = String(item.url || item.thumbnail || item.filename || '').toLowerCase().split('?')[0];
+            const dotIdx = src.lastIndexOf('.');
+            return dotIdx !== -1 && VIDEO_EXTENSIONS.has(src.slice(dotIdx + 1));
+        }
+
+        function formatVideoDuration(seconds) {
+            if (!Number.isFinite(seconds) || seconds <= 0) return '';
+            const totalSec = Math.round(seconds);
+            const mins = Math.floor(totalSec / 60);
+            const secs = totalSec % 60;
+            return `${mins}:${String(secs).padStart(2, '0')}`;
+        }
+
+        // Ajustar dinámicamente el margen superior de <main> según la altura real del header fijo
+        function updateHeaderOffset() {
+            if (!appHeader) return;
+            const height = appHeader.offsetHeight || 84;
+            document.documentElement.style.setProperty('--header-offset', `${height + 8}px`);
+        }
+
+        // Cargar carpetas desde API PHP
+        async function cargarFolders() {
+            try {
+                const response = await fetch(API_URL);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                const data = await response.json();
+                allFolders = Array.isArray(data.folders) ? data.folders : [];
+                rootMdFiles = Array.isArray(data.rootMdFiles) ? data.rootMdFiles : [];
+                renderRootDocs();
+
+                const targetScrollY = pendingInitialScrollY;
+                const initialRenderCount = pendingInitialRenderCount;
+                pendingInitialScrollY = null;
+                pendingInitialRenderCount = null;
+
+                resetPaginationAndRender({ initialRenderCount });
+                await restoreScrollPosition(targetScrollY || 0);
+            } catch (error) {
+                foldersList.innerHTML = `
+                    <div class="no-images">
+                        <p>Error cargando los datos: ${escapeHtml(error.message)}</p>
+                    </div>
+                `;
+                statsPill.textContent = 'Error de conexión';
+            }
+        }
+
+        // Renderizar accesos rápidos a documentos .md de la raíz del proyecto
+        function renderRootDocs() {
+            if (!rootDocs) return;
+            if (!rootMdFiles.length) {
+                rootDocs.innerHTML = '';
+                return;
+            }
+            rootDocs.innerHTML = rootMdFiles.map(md => {
+                const path = md.relativePath || md.webPath || md.fullPath || md.filename;
+                return `
+                    <button type="button" class="md-btn" data-md-path="${escapeHtml(path)}" data-md-title="${escapeHtml(md.filename)}">
+                        <i class="fas fa-file-lines"></i>
+                        <span>${escapeHtml(md.filename)}</span>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        // Reiniciar estado de paginación por lotes al cambiar búsqueda o filtro.
+        // Permite indicar cuántos elementos renderizar de entrada al restaurar la posición.
+        function resetPaginationAndRender(options = {}) {
+            const requestedCount = Number(options.initialRenderCount);
+            const initialCount = Number.isFinite(requestedCount) && requestedCount > 0
+                ? Math.max(batchSize, requestedCount)
+                : batchSize;
+            imagesRendered = 0;
+            imagesLoaded = 0;
+            totalImagesToLoad = initialCount;
+            isLoadingMore = false;
+            disconnectInfiniteScroll();
+            foldersList.innerHTML = '';
+            renderFolders();
+        }
+
+        // Comprobar si un elemento multimedia coincide con la búsqueda actual
+        function matchesMediaQuery(item, query) {
+            if (!query) return true;
+            const videoFlag = isVideoItem(item);
+            if ((query === 'video' || query === 'videos') && videoFlag) return true;
+            if ((query === 'imagen' || query === 'imagenes' || query === 'imágenes') && !videoFlag) return true;
+
+            return (
+                (item.filename && item.filename.toLowerCase().includes(query)) ||
+                (item.name && item.name.toLowerCase().includes(query)) ||
+                (item.extension && item.extension.toLowerCase().includes(query))
+            );
+        }
+
+        // ------------------------------------------------------------------
+        // Jerarquía de carpetas y subcarpetas
+        // ------------------------------------------------------------------
+
+        // Recorre recursivamente una carpeta y devuelve la lista plana de grupos:
+        // primero el nivel raíz y después cada subcarpeta en profundidad.
+        function collectFolderGroups(node, depth, inheritedMatch, query, out) {
+            const media = Array.isArray(node.images) ? node.images : [];
+            const mdFiles = Array.isArray(node.mdFiles) ? node.mdFiles : [];
+            const subfolders = Array.isArray(node.subfolders) ? node.subfolders : [];
+            const totalReferenceImages = media.filter(item => item.isReference).length;
+
+            const nameMatches = inheritedMatch || (query
+                ? String(node.name || '').toLowerCase().includes(query)
+                : false);
+
+            // 1) Filtro de referencias (checkbox)
+            let visibleMedia = currentFilter === 'reference'
+                ? media.slice()
+                : media.filter(item => !item.isReference);
+
+            // 2) Filtro de búsqueda por nombre de carpeta/subcarpeta, archivo, extensión o tipo ("video")
+            if (query && !nameMatches) {
+                visibleMedia = visibleMedia.filter(item => matchesMediaQuery(item, query));
+            }
+
+            const visibleVideos = visibleMedia.filter(isVideoItem).length;
+
+            out.push({
+                key: node.path || node.name || '',
+                name: node.name || '',
+                path: node.path || node.name || '',
+                depth: depth,
+                images: visibleMedia,
+                mdFiles: mdFiles,
+                visibleImagesCount: visibleMedia.length - visibleVideos,
+                visibleVideosCount: visibleVideos,
+                totalOriginalImages: media.length,
+                totalReferenceImages: totalReferenceImages,
+                nameMatchesQuery: nameMatches,
+                hasSubfolders: subfolders.length > 0
+            });
+
+            subfolders.forEach(sub => collectFolderGroups(sub, depth + 1, nameMatches, query, out));
+
+            return out;
+        }
+
+        // Obtener carpetas, subcarpetas y elementos multimedia filtrados
+        function getFilteredFolders() {
+            const query = currentSearch.toLowerCase();
+
+            return allFolders.map(folder => {
+                const groups = collectFolderGroups(folder, 0, false, query, []);
+                const rootGroup = groups[0] || null;
+                const subGroups = groups.filter(group => group.depth > 0);
+
+                const totalVisibleMedia = groups.reduce((sum, group) => sum + group.images.length, 0);
+                const totalVisibleVideos = groups.reduce((sum, group) => sum + group.visibleVideosCount, 0);
+
+                return {
+                    ...folder,
+                    groups,
+                    images: rootGroup ? rootGroup.images : [],
+                    visibleImagesCount: rootGroup ? rootGroup.visibleImagesCount : 0,
+                    visibleVideosCount: rootGroup ? rootGroup.visibleVideosCount : 0,
+                    totalOriginalImages: rootGroup ? rootGroup.totalOriginalImages : 0,
+                    totalReferenceImages: rootGroup ? rootGroup.totalReferenceImages : 0,
+                    totalVisibleMedia,
+                    totalVisibleVideos,
+                    folderMatchesQuery: rootGroup ? rootGroup.nameMatchesQuery : false,
+                    visibleSubfolders: subGroups.filter(group => group.images.length > 0
+                        || ((group.mdFiles || []).length > 0 && (!currentSearch || group.nameMatchesQuery))
+                        || !currentSearch)
+                };
+            }).filter(folder => {
+                if (folder.totalVisibleMedia > 0) {
+                    return true;
+                }
+                // Sin multimedia visible: se conserva si quedan .md visibles (propios o de subcarpetas)
+                return folder.groups.some(group => (group.mdFiles || []).length > 0
+                    && (!currentSearch || group.nameMatchesQuery));
+            });
+        }
+
+        // Construir HTML de un ítem individual (imagen o video)
+        function buildImageItemHtml(folderName, item) {
+            const videoFlag = isVideoItem(item);
+            const showReferenceTag = item.isReference;
+            const fileNameDisplay = item.filename || item.name;
+            const mediaUrl = item.url || item.thumbnail;
+            const safeUrl = escapeHtml(mediaUrl);
+            const safeFilename = escapeHtml(item.filename || item.name);
+            const safeFolder = escapeHtml(folderName);
+
+            if (videoFlag) {
+                const extUpper = escapeHtml(String(item.extension || 'video').toUpperCase());
+                const cached = videoThumbCache.get(mediaUrl);
+                const posterSrc = item.poster || (cached && cached.dataUrl ? cached.dataUrl : '');
+                const hasInitialThumb = Boolean(posterSrc);
+                const badgeLabel = (cached && cached.durationText)
+                    ? `${extUpper} · ${escapeHtml(cached.durationText)}`
+                    : extUpper;
+
+                return `
+                    <li class="folder-image is-video ${hasInitialThumb ? 'has-video-thumb' : ''}" data-type="video" data-filename="${safeFilename}" data-folder="${safeFolder}" data-src="${safeUrl}" data-ext="${extUpper}">
+                        ${showReferenceTag ? '<span class="image-tag">Referencia</span>' : ''}
+                        <span class="video-badge ${showReferenceTag ? 'with-ref' : ''}">
+                            <i class="fas fa-film"></i>
+                            <span class="video-badge-text">${badgeLabel}</span>
+                        </span>
+                        <div class="video-fallback-poster" aria-hidden="true">
+                            <div class="video-poster-emblem">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            <span class="video-poster-label">Video · ${extUpper}</span>
+                        </div>
+                        <img
+                            class="image-thumb video-generated-thumb"
+                            ${hasInitialThumb ? `src="${escapeHtml(posterSrc)}"` : 'style="display:none;"'}
+                            alt="${safeFilename}"
+                            title="${safeFilename}"
+                            loading="lazy"
+                        >
+                        <div class="video-center-play" aria-hidden="true">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <div class="file-name">${escapeHtml(fileNameDisplay)}</div>
+                        <span class="zoom-icon is-play" role="button" tabindex="0" title="Reproducir video" aria-label="Reproducir ${safeFilename}">
+                            <i class="fas fa-play"></i>
+                        </span>
+                        <span class="copy-icon" role="button" tabindex="0" title="Copiar enlace del video" aria-label="Copiar enlace de ${safeFilename}">
+                            <i class="fas fa-copy"></i>
+                        </span>
+                    </li>
+                `;
+            }
+
+            return `
+                <li class="folder-image" data-type="image" data-filename="${safeFilename}" data-folder="${safeFolder}" data-src="${safeUrl}">
+                    ${showReferenceTag ? '<span class="image-tag">Referencia</span>' : ''}
+                    <img
+                        class="image-thumb"
+                        src="${safeUrl}"
+                        alt="${safeFilename}"
+                        title="${safeFilename}"
+                        loading="lazy"
+                    >
+                    <div class="file-name">${escapeHtml(fileNameDisplay)}</div>
+                    <span class="zoom-icon" role="button" tabindex="0" title="Ampliar imagen" aria-label="Ampliar ${safeFilename}">
+                        <i class="fas fa-search"></i>
+                    </span>
+                    <span class="copy-icon" role="button" tabindex="0" title="Copiar imagen al portapapeles" aria-label="Copiar ${safeFilename}">
+                        <i class="fas fa-copy"></i>
+                    </span>
+                </li>
+            `;
+        }
+
+        // Construir la tarjeta de un proyecto: cabecera + cuerpo, donde luego se insertan
+        // el grupo raíz y la sección de cada subcarpeta.
+        function buildFolderCardShell(folder) {
+            const mdButtonsHtml = Array.isArray(folder.mdFiles)
+                ? folder.mdFiles.map(md => {
+                    const mdPath = md.relativePath || md.webPath || md.fullPath || md.filename;
+                    return `
+                        <button type="button" class="md-btn" data-md-path="${escapeHtml(mdPath)}" data-md-title="${escapeHtml(folder.name + ' / ' + md.filename)}">
+                            <i class="fas fa-file-lines"></i>
+                            <span>${escapeHtml(md.filename)}</span>
+                        </button>
+                    `;
+                }).join('')
+                : '';
+
+            const vidCount = folder.totalVisibleVideos || 0;
+            const imgCount = Math.max(0, (folder.totalVisibleMedia || 0) - vidCount);
+            const subCount = (folder.visibleSubfolders || []).length;
+
+            const countParts = [];
+            if (imgCount > 0 || vidCount === 0) {
+                countParts.push(`${imgCount} ${imgCount === 1 ? 'imagen' : 'imágenes'}`);
+            }
+            if (subCount > 0) {
+                countParts.push(`${subCount} ${subCount === 1 ? 'subcarpeta' : 'subcarpetas'}`);
+            }
+            const countBadgeHtml = `<span class="folder-count-badge">${escapeHtml(countParts.join(' · '))}</span>`;
+
+            const videoBadgeHtml = vidCount > 0
+                ? `<span class="folder-video-badge"><i class="fas fa-play" style="font-size:0.55rem;"></i> ${vidCount} ${vidCount === 1 ? 'video' : 'videos'}</span>`
+                : '';
+
+            return `
+                <div class="folder-card" data-folder-card="${escapeHtml(folder.path || folder.name)}">
+                    <div class="folder-header">
+                        <div class="folder-header-main">
+                            <div class="folder-title-row">
+                                <button type="button" class="folder-collapse-btn" data-folder-collapse data-folder-label="${escapeHtml(folder.name)}" aria-expanded="true" title="Colapsar carpeta" aria-label="Colapsar carpeta ${escapeHtml(folder.name)}">
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                                <span class="folder-name"><i class="fas fa-folder" style="color:var(--accent);font-size:0.8rem;"></i> ${escapeHtml(folder.name)}</span>
+                                ${countBadgeHtml}
+                                ${videoBadgeHtml}
+                            </div>
+                        </div>
+                        <div class="folder-header-actions">
+                            ${mdButtonsHtml}
+                        </div>
+                    </div>
+                    <div class="folder-body"></div>
+                </div>
+            `;
+        }
+
+        // Construir la sección de una subcarpeta: cabecera propia + su grid de archivos
+        function buildSubfolderSectionHtml(group, itemsHtml) {
+            const depthClass = Math.min(group.depth, 5);
+            const imgCount = group.images.length;
+            const vidCount = group.visibleVideosCount || 0;
+
+            const mdButtonsHtml = Array.isArray(group.mdFiles)
+                ? group.mdFiles.map(md => {
+                    const mdPath = md.relativePath || md.webPath || md.fullPath || md.filename;
+                    return `
+                        <button type="button" class="md-btn" data-md-path="${escapeHtml(mdPath)}" data-md-title="${escapeHtml(group.path + ' / ' + md.filename)}">
+                            <i class="fas fa-file-lines"></i>
+                            <span>${escapeHtml(md.filename)}</span>
+                        </button>
+                    `;
+                }).join('')
+                : '';
+
+            const countBadgeHtml = imgCount > 0
+                ? `<span class="folder-count-badge">${imgCount} ${imgCount === 1 ? 'imagen' : 'imágenes'}</span>`
+                : `<span class="subfolder-empty-badge">vacía</span>`;
+
+            const videoBadgeHtml = vidCount > 0
+                ? `<span class="folder-video-badge"><i class="fas fa-play" style="font-size:0.55rem;"></i> ${vidCount} ${vidCount === 1 ? 'video' : 'videos'}</span>`
+                : '';
+
+            return `
+                <div class="media-group subfolder-block depth-${depthClass}" data-depth="${group.depth}" data-group-key="${escapeHtml(group.key)}">
+                    <div class="subfolder-header">
+                        <button type="button" class="subfolder-collapse-btn" data-subfolder-collapse data-folder-label="${escapeHtml(group.name)}" aria-expanded="true" title="Colapsar subcarpeta" aria-label="Colapsar subcarpeta ${escapeHtml(group.name)}">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <span class="subfolder-name"><i class="fas fa-folder-open"></i> ${escapeHtml(group.name)}</span>
+                        ${countBadgeHtml}
+                        ${videoBadgeHtml}
+                        <span class="subfolder-path" title="${escapeHtml(group.path)}">${escapeHtml(group.path)}</span>
+                        ${mdButtonsHtml}
+                    </div>
+                    <ul class="folder-images">${itemsHtml}</ul>
+                </div>
+            `;
+        }
+
+        // Renderizar carpetas, subcarpetas, imágenes y videos por lotes progresivos de 50
+        function renderFolders() {
+            if (imagesRendering) return;
+            imagesRendering = true;
+
+            try {
+                if (allFolders.length === 0) {
+                    foldersList.innerHTML = `
+                        <div class="no-images">
+                            <p>No hay carpetas con archivos multimedia o .md encontrados.</p>
+                        </div>
+                    `;
+                    statsPill.textContent = '0 elementos';
+                    scrollSentinel.style.display = 'none';
+                    return;
+                }
+
+                const filteredFolders = getFilteredFolders();
+                const totalFilteredMedia = filteredFolders.reduce((sum, folder) => sum + folder.totalVisibleMedia, 0);
+                const totalVideosFiltered = filteredFolders.reduce((sum, folder) => sum + folder.totalVisibleVideos, 0);
+                const totalSubfoldersFiltered = filteredFolders.reduce((sum, folder) => sum + (folder.visibleSubfolders || []).length, 0);
+
+                // Preparar listado completo filtrado (carpetas + subcarpetas) para navegación continua en el lightbox
+                lightboxImages = [];
+                filteredFolders.forEach(folder => {
+                    folder.groups.forEach(group => {
+                        group.images.forEach(item => {
+                            const mediaUrl = item.url || item.thumbnail;
+                            lightboxImages.push({
+                                src: mediaUrl,
+                                alt: item.filename,
+                                name: item.filename || item.name,
+                                folder: group.depth > 0 ? `${folder.name} / ${group.name}` : folder.name,
+                                isReference: item.isReference,
+                                isVideo: isVideoItem(item)
+                            });
+                        });
+                    });
+                });
+
+                if (filteredFolders.length === 0) {
+                    const emptyMsg = currentSearch
+                        ? `No se encontraron archivos, videos, carpetas ni subcarpetas que coincidan con "${escapeHtml(currentSearch)}".`
+                        : 'No hay elementos visibles con el filtro actual. Marca "Mostrar referencias" para incluir elementos de referencia.';
+                    foldersList.innerHTML = `
+                        <div class="no-images">
+                            <p>${emptyMsg}</p>
+                        </div>
+                    `;
+                    statsPill.textContent = '0 resultados';
+                    scrollSentinel.style.display = 'none';
+                    return;
+                }
+
+                const targetRenderCount = Math.min(totalImagesToLoad, totalFilteredMedia);
+                let globalMediaCursor = 0;
+
+                filteredFolders.forEach(folder => {
+                    const cardSelector = `[data-folder-card="${escapeCssSelector(folder.path || folder.name)}"]`;
+                    let cardCreated = false;
+
+                    const ensureCard = () => {
+                        const existing = foldersList.querySelector(cardSelector);
+                        if (existing) {
+                            cardCreated = true;
+                            return existing;
+                        }
+                        foldersList.insertAdjacentHTML('beforeend', buildFolderCardShell(folder));
+                        cardCreated = true;
+                        return foldersList.querySelector(cardSelector);
+                    };
+
+                    folder.groups.forEach(group => {
+                        const groupLen = group.images.length;
+                        const groupStartGlobal = globalMediaCursor;
+                        const groupEndGlobal = groupStartGlobal + groupLen;
+                        globalMediaCursor = groupEndGlobal;
+
+                        // Porción de este grupo que corresponde al lote actual
+                        let newSlice = [];
+                        if (groupEndGlobal > imagesRendered && groupStartGlobal < targetRenderCount) {
+                            const sliceStart = Math.max(0, imagesRendered - groupStartGlobal);
+                            const sliceEnd = Math.min(groupLen, targetRenderCount - groupStartGlobal);
+                            newSlice = group.images.slice(sliceStart, sliceEnd);
+                        }
+
+                        const isRootGroup = group.depth === 0;
+                        const hasMd = Array.isArray(group.mdFiles) && group.mdFiles.length > 0;
+
+                        // Las subcarpetas se muestran siempre como secciones (aunque sus archivos
+                        // lleguen en lotes posteriores del scroll infinito).
+                        const shouldCreateSection = isRootGroup
+                            ? (newSlice.length > 0 || folder.totalVisibleMedia === 0)
+                            : groupLen > 0
+                                || (hasMd && (!currentSearch || group.nameMatchesQuery))
+                                || (cardCreated && !currentSearch);
+
+                        if (!shouldCreateSection) {
+                            return;
+                        }
+
+                        // Evitar crear una tarjeta vacía cuando todavía no hay nada que mostrar
+                        if (!cardCreated && newSlice.length === 0 && !hasMd && folder.totalVisibleMedia > 0) {
+                            return;
+                        }
+
+                        const card = ensureCard();
+                        if (!card) {
+                            return;
+                        }
+
+                        const body = card.querySelector('.folder-body');
+                        if (!body) {
+                            return;
+                        }
+
+                        const itemsHtml = newSlice
+                            .map(item => buildImageItemHtml(group.path || folder.name, item))
+                            .join('');
+                        const existingSection = card.querySelector(`[data-group-key="${escapeCssSelector(group.key)}"]`);
+
+                        if (!existingSection) {
+                            const sectionHtml = isRootGroup
+                                ? `
+                                    <div class="media-group" data-group-key="${escapeHtml(group.key)}">
+                                        <ul class="folder-images">${itemsHtml}</ul>
+                                    </div>
+                                `
+                                : buildSubfolderSectionHtml(group, itemsHtml);
+                            body.insertAdjacentHTML('beforeend', sectionHtml);
+                        } else if (itemsHtml !== '') {
+                            const listEl = existingSection.querySelector('.folder-images');
+                            if (listEl) {
+                                listEl.insertAdjacentHTML('beforeend', itemsHtml);
+                            }
+                        }
+                    });
+                });
+
+                imagesRendered = targetRenderCount;
+                const videoStatSuffix = totalVideosFiltered > 0
+                    ? ` (${totalVideosFiltered} ${totalVideosFiltered === 1 ? 'video' : 'videos'})`
+                    : '';
+                const subfolderStatSuffix = totalSubfoldersFiltered > 0
+                    ? ` · ${totalSubfoldersFiltered} ${totalSubfoldersFiltered === 1 ? 'subcarpeta' : 'subcarpetas'}`
+                    : '';
+                statsPill.textContent = `${imagesRendered} de ${totalFilteredMedia} elementos${videoStatSuffix} · ${filteredFolders.length} ${filteredFolders.length === 1 ? 'proyecto' : 'proyectos'}${subfolderStatSuffix}`;
+
+                setupImageListeners();
+
+                if (imagesRendered < totalFilteredMedia) {
+                    scrollSentinel.style.display = 'block';
+                    scrollSentinel.textContent = `Mostrando ${imagesRendered} de ${totalFilteredMedia} elementos — desplázate para cargar más...`;
+                    setupInfiniteScroll();
+                } else {
+                    scrollSentinel.style.display = 'none';
+                    disconnectInfiniteScroll();
+                }
+            } finally {
+                imagesRendering = false;
+                syncCopySelectionUi();
+            }
+        }
+
+        // Extracción automática en cliente de miniatura JPEG + duración desde HTML5 <video> + <canvas>
+        // Si el códec no es soportado por el navegador, conserva automáticamente el póster icono fallback.
+        function extractVideoThumbnail(videoUrl) {
+            if (videoThumbCache.has(videoUrl)) {
+                return Promise.resolve(videoThumbCache.get(videoUrl));
+            }
+
+            return new Promise((resolve) => {
+                const video = document.createElement('video');
+                let settled = false;
+                let durationText = '';
+
+                const finish = (result) => {
+                    if (settled) return;
+                    settled = true;
+                    clearTimeout(timeoutId);
+                    try {
+                        video.pause();
+                        video.removeAttribute('src');
+                        video.load();
+                    } catch (_) {}
+                    videoThumbCache.set(videoUrl, result);
+                    resolve(result);
+                };
+
+                const timeoutId = setTimeout(() => {
+                    finish({ dataUrl: null, durationText, failed: true });
+                }, 8000);
+
+                const captureFrame = () => {
+                    try {
+                        const vw = video.videoWidth;
+                        const vh = video.videoHeight;
+                        if (!vw || !vh) {
+                            finish({ dataUrl: null, durationText, failed: true });
+                            return;
+                        }
+                        const maxWidth = 540;
+                        const scale = vw > maxWidth ? maxWidth / vw : 1;
+                        const canvas = document.createElement('canvas');
+                        canvas.width = Math.max(1, Math.round(vw * scale));
+                        canvas.height = Math.max(1, Math.round(vh * scale));
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                        const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+                        finish({ dataUrl, durationText, failed: false });
+                    } catch (_) {
+                        finish({ dataUrl: null, durationText, failed: true });
+                    }
+                };
+
+                video.crossOrigin = 'anonymous';
+                video.muted = true;
+                video.playsInline = true;
+                video.preload = 'metadata';
+
+                video.addEventListener('loadedmetadata', () => {
+                    durationText = formatVideoDuration(video.duration);
+                    const seekTo = (Number.isFinite(video.duration) && video.duration > 0)
+                        ? Math.min(1.0, Math.max(0.1, video.duration * 0.15))
+                        : 0.1;
+                    try {
+                        video.currentTime = seekTo;
+                    } catch (_) {
+                        // Si no permite seek inmediato, esperar a loadeddata
+                    }
+                }, { once: true });
+
+                video.addEventListener('seeked', captureFrame, { once: true });
+
+                video.addEventListener('loadeddata', () => {
+                    // Respaldo para videos muy cortos donde currentTime no dispara seeked adicional
+                    setTimeout(() => {
+                        if (!settled && video.readyState >= 2) {
+                            captureFrame();
+                        }
+                    }, 220);
+                }, { once: true });
+
+                video.addEventListener('error', () => {
+                    finish({ dataUrl: null, durationText: '', failed: true });
+                }, { once: true });
+
+                video.src = videoUrl;
+            });
+        }
+
+        function applyVideoThumbResult(cardEl, result) {
+            if (!cardEl || !result) return;
+            const extLabel = cardEl.getAttribute('data-ext') || 'VIDEO';
+            const badgeTextEl = cardEl.querySelector('.video-badge-text');
+            if (badgeTextEl && result.durationText) {
+                badgeTextEl.textContent = `${extLabel} · ${result.durationText}`;
+            }
+
+            if (result.dataUrl && !cardEl.classList.contains('has-video-thumb')) {
+                const imgEl = cardEl.querySelector('img.video-generated-thumb');
+                if (imgEl) {
+                    imgEl.src = result.dataUrl;
+                    imgEl.style.display = 'block';
+                    cardEl.classList.add('has-video-thumb');
+                }
+            }
+            imagesLoaded++;
+        }
+
+        function pumpVideoThumbQueue() {
+            while (activeVideoThumbWorkers < MAX_VIDEO_THUMB_WORKERS && videoThumbQueue.length > 0) {
+                const { cardEl, src } = videoThumbQueue.shift();
+                if (!cardEl || !cardEl.isConnected) continue;
+
+                activeVideoThumbWorkers++;
+                extractVideoThumbnail(src)
+                    .then((res) => applyVideoThumbResult(cardEl, res))
+                    .finally(() => {
+                        activeVideoThumbWorkers--;
+                        pumpVideoThumbQueue();
+                    });
+            }
+        }
+
+        function observeVideoCardForThumbnail(cardEl) {
+            const src = cardEl.getAttribute('data-src');
+            if (!src) return;
+
+            if (videoThumbCache.has(src)) {
+                applyVideoThumbResult(cardEl, videoThumbCache.get(src));
+                return;
+            }
+
+            if (!('IntersectionObserver' in window)) {
+                videoThumbQueue.push({ cardEl, src });
+                pumpVideoThumbQueue();
+                return;
+            }
+
+            if (!videoThumbObserver) {
+                videoThumbObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (!entry.isIntersecting) return;
+                        const el = entry.target;
+                        videoThumbObserver.unobserve(el);
+                        const videoSrc = el.getAttribute('data-src');
+                        if (videoSrc) {
+                            videoThumbQueue.push({ cardEl: el, src: videoSrc });
+                            pumpVideoThumbQueue();
+                        }
+                    });
+                }, {
+                    root: null,
+                    rootMargin: '300px'
+                });
+            }
+
+            videoThumbObserver.observe(cardEl);
+        }
+
+        // Configurar listeners de carga de imágenes nuevas y extracción perezosa de thumbnails de video
+        function setupImageListeners() {
+            const unboundItems = foldersList.querySelectorAll('.folder-image:not([data-bound="1"])');
+            unboundItems.forEach(item => {
+                item.setAttribute('data-bound', '1');
+
+                if (item.classList.contains('is-video')) {
+                    if (!item.classList.contains('has-video-thumb')) {
+                        observeVideoCardForThumbnail(item);
+                    } else {
+                        imagesLoaded++;
+                    }
+                    return;
+                }
+
+                const imgEl = item.querySelector('img.image-thumb');
+                if (!imgEl) return;
+
+                if (imgEl.complete && imgEl.naturalWidth > 0) {
+                    imagesLoaded++;
+                } else {
+                    imgEl.addEventListener('load', () => {
+                        imagesLoaded++;
+                    }, { once: true });
+                    imgEl.addEventListener('error', () => {
+                        imgEl.style.opacity = '0.25';
+                    }, { once: true });
+                }
+            });
+        }
+
+        // Desconectar observer de scroll infinito activo
+        function disconnectInfiniteScroll() {
+            if (infiniteObserver) {
+                infiniteObserver.disconnect();
+                infiniteObserver = null;
+            }
+            if (scrollFallbackAttached) {
+                window.removeEventListener('scroll', handleScrollLoadMore);
+                scrollFallbackAttached = false;
+            }
+        }
+
+        // Solicitar carga del siguiente lote de 50 elementos
+        function loadNextBatch() {
+            if (isLoadingMore || imagesRendering) return;
+            if (imagesRendered >= lightboxImages.length) return;
+
+            isLoadingMore = true;
+            setTimeout(() => {
+                totalImagesToLoad += batchSize;
+                renderFolders();
+                isLoadingMore = false;
+            }, 150);
+        }
+
+        // Configurar IntersectionObserver para scroll infinito (con fallback a evento scroll)
+        function setupInfiniteScroll() {
+            disconnectInfiniteScroll();
+
+            if (!('IntersectionObserver' in window)) {
+                window.addEventListener('scroll', handleScrollLoadMore, { passive: true });
+                scrollFallbackAttached = true;
+                return;
+            }
+
+            infiniteObserver = new IntersectionObserver((entries) => {
+                if (entries.some(entry => entry.isIntersecting)) {
+                    loadNextBatch();
+                }
+            }, {
+                root: null,
+                rootMargin: '250px'
+            });
+
+            if (scrollSentinel) {
+                infiniteObserver.observe(scrollSentinel);
+            }
+        }
+
+        // Fallback para navegadores sin IntersectionObserver
+        function handleScrollLoadMore() {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
+                loadNextBatch();
+            }
+        }
+
+        // Detener y liberar limpiamente el reproductor de video del lightbox
+        function stopLightboxVideo() {
+            if (!lightboxVideo) return;
+            try {
+                lightboxVideo.pause();
+            } catch (_) {}
+            lightboxVideo.removeAttribute('src');
+            lightboxVideo.load();
+            lightboxVideo.style.display = 'none';
+        }
+
+        // Actualizar vista (imagen o reproductor de video) y metadatos en el lightbox
+        function updateLightboxView() {
+            const current = lightboxImages[lightboxCurrentIndex];
+            if (!current) return;
+
+            stopLightboxVideo();
+
+            if (current.isVideo) {
+                lightboxImg.style.display = 'none';
+                lightboxImg.src = '';
+
+                lightboxVideo.style.display = 'block';
+                lightboxVideo.src = current.src;
+                const playPromise = lightboxVideo.play();
+                if (playPromise && typeof playPromise.catch === 'function') {
+                    playPromise.catch(() => {});
+                }
+                lightboxCopyBtn.innerHTML = '<i class="fas fa-link"></i> Copiar URL';
+            } else {
+                lightboxImg.style.display = 'block';
+                lightboxImg.src = current.src;
+                lightboxImg.alt = current.alt || '';
+                lightboxCopyBtn.innerHTML = '<i class="fas fa-copy"></i> Copiar';
+            }
+
+            lightboxCounter.textContent = `${lightboxCurrentIndex + 1} / ${lightboxImages.length}`;
+            lightboxCaptionText.textContent = current.folder
+                ? `${current.folder} — ${current.name}`
+                : current.name;
+
+            const showNav = lightboxImages.length > 1;
+            lightboxPrev.style.display = showNav ? 'flex' : 'none';
+            lightboxNext.style.display = showNav ? 'flex' : 'none';
+        }
+
+        // Abrir/cerrar lightbox (ampliar imagen o reproducir video)
+        function toggleLightbox(mediaSrc) {
+            if (
+                lightbox.classList.contains('active') &&
+                lightboxImages[lightboxCurrentIndex] &&
+                lightboxImages[lightboxCurrentIndex].src === mediaSrc
+            ) {
+                closeLightbox();
+                return;
+            }
+
+            const foundIndex = lightboxImages.findIndex(item => item.src === mediaSrc);
+            if (foundIndex !== -1) {
+                lightboxCurrentIndex = foundIndex;
+            } else {
+                lightboxImages.unshift({
+                    src: mediaSrc,
+                    alt: '',
+                    name: mediaSrc.split('/').pop() || '',
+                    isVideo: isVideoItem({ url: mediaSrc })
+                });
+                lightboxCurrentIndex = 0;
+            }
+
+            updateLightboxView();
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Cerrar lightbox deteniendo cualquier reproducción activa
+        function closeLightbox() {
+            stopLightboxVideo();
+            lightbox.classList.remove('active');
+            lightboxImg.src = '';
+            document.body.style.overflow = '';
+        }
+
+        // Navegar a elemento anterior en lightbox
+        function prevImage() {
+            if (lightboxImages.length <= 1) return;
+            lightboxCurrentIndex = (lightboxCurrentIndex - 1 + lightboxImages.length) % lightboxImages.length;
+            updateLightboxView();
+        }
+
+        // Navegar a elemento siguiente en lightbox
+        function nextImage() {
+            if (lightboxImages.length <= 1) return;
+            lightboxCurrentIndex = (lightboxCurrentIndex + 1) % lightboxImages.length;
+            updateLightboxView();
+        }
+
+        // Inicializar todos los listeners del lightbox (desktop + iOS touch + teclado + swipe)
+        function initLightbox() {
+            lightboxClose.addEventListener('click', closeLightbox);
+
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    closeLightbox();
+                }
+            });
+
+            lightboxClose.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                closeLightbox();
+            }, { passive: false });
+
+            lightbox.addEventListener('touchend', (e) => {
+                if (e.target === lightbox) {
+                    e.preventDefault();
+                    closeLightbox();
+                }
+            }, { passive: false });
+
+            lightboxPrev.addEventListener('click', (e) => {
+                e.stopPropagation();
+                prevImage();
+            });
+
+            lightboxNext.addEventListener('click', (e) => {
+                e.stopPropagation();
+                nextImage();
+            });
+
+            lightboxCopyBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const current = lightboxImages[lightboxCurrentIndex];
+                if (current && current.src) {
+                    if (current.isVideo) {
+                        copyImageToClipboard(current.src, true);
+                    } else {
+                        toggleCopySelection(current.src, current.name || '');
+                    }
+                }
+            });
+
+            // Soporte de swipe horizontal en móvil / iOS (ignorando controles nativos de video)
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let swipeIgnore = false;
+
+            lightbox.addEventListener('touchstart', (e) => {
+                swipeIgnore = (e.target === lightboxVideo);
+                if (e.changedTouches && e.changedTouches.length > 0) {
+                    touchStartX = e.changedTouches[0].screenX;
+                    touchStartY = e.changedTouches[0].screenY;
+                }
+            }, { passive: true });
+
+            lightbox.addEventListener('touchend', (e) => {
+                if (swipeIgnore || !lightbox.classList.contains('active')) return;
+                if (!e.changedTouches || e.changedTouches.length === 0) return;
+                const dx = e.changedTouches[0].screenX - touchStartX;
+                const dy = e.changedTouches[0].screenY - touchStartY;
+                if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+                    if (dx > 0) {
+                        prevImage();
+                    } else {
+                        nextImage();
+                    }
+                }
+            }, { passive: true });
+
+            // Navegación y cierre por teclado
+            document.addEventListener('keydown', (e) => {
+                if (lightbox.classList.contains('active')) {
+                    if (e.key === 'Escape') {
+                        closeLightbox();
+                    } else if (e.key === 'ArrowLeft') {
+                        prevImage();
+                    } else if (e.key === 'ArrowRight') {
+                        nextImage();
+                    }
+                } else if (mdViewer.classList.contains('active') && e.key === 'Escape') {
+                    closeMdViewer();
+                }
+            });
+        }
+
+        // Mostrar notificación toast con mensaje configurable sin corromper estado posterior
+        function showToast(message = 'Copiado al portapapeles', isError = false) {
+            if (toastTimer) {
+                clearTimeout(toastTimer);
+            }
+            toast.textContent = message;
+            toast.classList.toggle('is-error', Boolean(isError));
+            toast.classList.add('show');
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Manejar cambio en checkbox "Mostrar referencias"
+        function toggleFilter(checkbox) {
+            const isChecked = Boolean(checkbox && checkbox.checked);
+            currentFilter = isChecked ? 'reference' : 'hide-reference';
+            if (filterLabel) {
+                filterLabel.classList.toggle('is-checked', isChecked);
+            }
+            writePersistedState({
+                filter: currentFilter,
+                scrollY: Math.round(window.scrollY || window.pageYOffset || 0),
+                renderedCount: batchSize
+            });
+            resetPaginationAndRender();
+        }
+
+        // Filtrar por término de búsqueda en carpeta, archivo, extensión o tipo ("video")
+        function filterBySearch() {
+            currentSearch = searchInput ? searchInput.value.trim() : '';
+            if (searchClear) {
+                searchClear.classList.toggle('visible', currentSearch.length > 0);
+            }
+            writePersistedState({
+                search: currentSearch,
+                scrollY: Math.round(window.scrollY || window.pageYOffset || 0),
+                renderedCount: batchSize
+            });
+            syncUrlWithSearch();
+            resetPaginationAndRender();
+        }
+
+        // Convertir URL de imagen a Blob PNG mediante Canvas
+        function imageUrlToPngBlob(imgSrc) {
+            return new Promise((resolve, reject) => {
+                const tempImage = new Image();
+                tempImage.crossOrigin = 'anonymous';
+                tempImage.onload = () => {
+                    try {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = tempImage.naturalWidth || tempImage.width;
+                        canvas.height = tempImage.naturalHeight || tempImage.height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(tempImage, 0, 0);
+                        canvas.toBlob((blob) => {
+                            if (blob) {
+                                resolve(blob);
+                            } else {
+                                reject(new Error('No se pudo convertir la imagen a PNG'));
+                            }
+                        }, 'image/png');
+                    } catch (err) {
+                        reject(err);
+                    }
+                };
+                tempImage.onerror = () => reject(new Error('No se pudo cargar la imagen para copiar'));
+                tempImage.src = imgSrc;
+            });
+        }
+
+        // Fallback universal para copiar texto (soporta contextos HTTP sin navigator.clipboard e iOS)
+        async function copyTextFallback(text) {
+            if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+                await navigator.clipboard.writeText(text);
+                return true;
+            }
+
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.setAttribute('readonly', '');
+            textArea.style.position = 'fixed';
+            textArea.style.top = '-9999px';
+            textArea.style.left = '-9999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            textArea.setSelectionRange(0, text.length);
+
+            let copied = false;
+            try {
+                copied = document.execCommand('copy');
+            } finally {
+                document.body.removeChild(textArea);
+            }
+
+            if (!copied) {
+                throw new Error('execCommand copy falló');
+            }
+            return true;
+        }
+
+        // Copiar imagen PNG al portapapeles (o enlace directo si es un archivo de video)
+        async function copyImageToClipboard(mediaSrc, forceUrlCopy = false) {
+            const absoluteUrl = new URL(mediaSrc, window.location.href).href;
+
+            if (forceUrlCopy || isVideoItem({ url: mediaSrc })) {
+                try {
+                    await copyTextFallback(absoluteUrl);
+                    showToast('URL del video copiada al portapapeles');
+                } catch (err) {
+                    console.error('Error al copiar URL del video:', err);
+                    showToast('No se pudo copiar el enlace del video', true);
+                }
+                return;
+            }
+
+            if (
+                navigator.clipboard &&
+                typeof navigator.clipboard.write === 'function' &&
+                typeof window.ClipboardItem !== 'undefined'
+            ) {
+                try {
+                    const pngPromise = imageUrlToPngBlob(mediaSrc);
+                    try {
+                        await navigator.clipboard.write([
+                            new ClipboardItem({ 'image/png': pngPromise })
+                        ]);
+                    } catch (syncItemError) {
+                        const resolvedBlob = await pngPromise;
+                        await navigator.clipboard.write([
+                            new ClipboardItem({ 'image/png': resolvedBlob })
+                        ]);
+                    }
+                    showToast('Copiado al portapapeles');
+                    return;
+                } catch (imgCopyErr) {
+                    // Continuar al fallback de URL de texto
+                }
+            }
+
+            // Sin contexto seguro (http://) el navegador no expone la Clipboard API y no se
+            // puede copiar el bitmap. No se copia la URL: se avisa y se deja el portapapeles intacto.
+            if (!window.isSecureContext || !navigator.clipboard || typeof navigator.clipboard.write !== 'function') {
+                //showToast('Para copiar la imagen, abre el catálogo con https:// o en localhost', true);
+            } else {
+                showToast('No se pudo copiar la imagen al portapapeles', true);
+            }
+            console.error('No se pudo copiar la imagen:', absoluteUrl);
+        }
+
+        // ------------------------------------------------------------------
+        // Selección múltiple de imágenes para copiar al portapapeles
+        // ------------------------------------------------------------------
+        function getCopySelectionKey(src) {
+            try {
+                return new URL(src, window.location.href).href;
+            } catch (error) {
+                return String(src || '');
+            }
+        }
+
+        // Refleja en las miniaturas y en la barra el estado de la selección actual
+        function syncCopySelectionUi() {
+            foldersList.querySelectorAll('.folder-image[data-type="image"]').forEach(card => {
+                const src = card.getAttribute('data-src') || '';
+                const isSelected = copySelection.has(getCopySelectionKey(src));
+                card.classList.toggle('is-copy-selected', isSelected);
+
+                const copyIcon = card.querySelector('.copy-icon');
+                if (copyIcon) {
+                    copyIcon.setAttribute('aria-pressed', String(isSelected));
+                    copyIcon.title = isSelected ? 'Quitar de la selección' : 'Añadir a la selección';
+                    const icon = copyIcon.querySelector('i');
+                    if (icon) {
+                        icon.className = isSelected ? 'fas fa-check' : 'fas fa-copy';
+                    }
+                }
+            });
+
+            if (copyTray) {
+                const count = copySelection.size;
+                copyTray.hidden = count === 0;
+                if (copyTrayCount) {
+                    copyTrayCount.textContent = count === 1
+                        ? '1 imagen lista'
+                        : `${count} imágenes listas`;
+                }
+            }
+        }
+
+        // Escribe todas las imágenes seleccionadas como varios ClipboardItem.
+        // El sistema puede aceptar solo una, así que se avisa al usuario.
+        async function writeCopySelectionToClipboard(options = {}) {
+            const notify = options.notify !== false;
+            const entries = Array.from(copySelection.values());
+            if (entries.length === 0) return false;
+
+            // Una sola imagen: usar el copiado normal original (sí soportado por el navegador)
+            if (entries.length === 1) {
+                await copyImageToClipboard(entries[0].src);
+                return true;
+            }
+
+            if (
+                navigator.clipboard &&
+                typeof navigator.clipboard.write === 'function' &&
+                typeof window.ClipboardItem !== 'undefined'
+            ) {
+                try {
+                    const items = entries.map(entry => new ClipboardItem({
+                        'image/png': imageUrlToPngBlob(entry.src)
+                    }));
+                    await navigator.clipboard.write(items);
+                    if (notify) {
+                        showToast(entries.length === 1
+                            ? 'Imagen copiada al portapapeles'
+                            : `${entries.length} imágenes copiadas (el sistema puede pegar solo una)`);
+                    }
+                    return true;
+                } catch (multiError) {
+                    // Chrome no soporta varios ClipboardItem: copiar la última añadida
+                    try {
+                        const last = entries[entries.length - 1];
+                        await navigator.clipboard.write([
+                            new ClipboardItem({ 'image/png': imageUrlToPngBlob(last.src) })
+                        ]);
+                        if (notify) {
+                            showToast(
+                                entries.length > 1
+                                    ? `${entries.length} imágenes en la selección; el sistema copió la última`
+                                    : 'Imagen copiada al portapapeles',
+                                entries.length > 1
+                            );
+                        }
+                        return true;
+                    } catch (singleError) {
+                        // Continuar al fallback de enlaces
+                    }
+                }
+            }
+
+            // Nunca se copian las URL de las imágenes: si el navegador no puede copiar los
+            // bitmaps (p. ej. origen http://), se avisa y no se toca el portapapeles.
+            if (notify) {
+                if (!window.isSecureContext || !navigator.clipboard) {
+                    //showToast('Para copiar imágenes, abre el catálogo con https:// o en localhost', true);
+                } else {
+                    showToast('No se pudieron copiar las imágenes', true);
+                }
+            }
+            return false;
+        }
+
+        // Añade o quita una imagen de la selección y actualiza el portapapeles al añadir
+        async function toggleCopySelection(src, name = '') {
+            if (!src) return;
+            const key = getCopySelectionKey(src);
+            const wasSelected = copySelection.has(key);
+
+            if (wasSelected) {
+                copySelection.delete(key);
+                syncCopySelectionUi();
+                if (copySelection.size > 0) {
+                    await writeCopySelectionToClipboard({ notify: false });
+                }
+                showToast('Imagen quitada de la selección');
+                return;
+            }
+
+            copySelection.set(key, { src, name });
+            syncCopySelectionUi();
+            await writeCopySelectionToClipboard();
+        }
+
+        function clearCopySelection() {
+            copySelection.clear();
+            syncCopySelectionUi();
+            showToast('Selección vaciada');
+        }
+
+        // Renderizar Markdown a HTML de forma compatible con marked@4.3.0.
+        // El HTML generado se sanea con DOMPurify antes de insertarlo: un .md
+        // nunca debe poder ejecutar scripts ni inyectar manejadores de eventos.
+        function renderMarkdownToHtml(markdownText) {
+            let html = null;
+            if (window.marked) {
+                if (typeof window.marked.parse === 'function') {
+                    html = window.marked.parse(markdownText);
+                } else if (typeof window.marked === 'function') {
+                    html = window.marked(markdownText);
+                }
+            }
+            if (html === null) {
+                return `<pre>${escapeHtml(markdownText)}</pre>`;
+            }
+            if (window.DOMPurify && typeof window.DOMPurify.sanitize === 'function') {
+                return window.DOMPurify.sanitize(html, {
+                    USE_PROFILES: { html: true },
+                    FORBID_TAGS: ['style', 'form', 'input', 'button', 'textarea', 'select', 'option'],
+                    FORBID_ATTR: ['style']
+                });
+            }
+            // Sin DOMPurify no se renderiza HTML: se muestra el texto escapado.
+            return `<pre>${escapeHtml(markdownText)}</pre>`;
+        }
+
+        // Resolver enlaces relativos entre archivos .md (ej. "../../generar_imagen.md")
+        function resolveRelativeMdPath(baseFilePath, href) {
+            const cleanBase = String(baseFilePath || '').replace(/\\/g, '/');
+            const baseParts = cleanBase.split('/');
+            baseParts.pop();
+            const relParts = String(href || '').split('/');
+            for (const part of relParts) {
+                if (!part || part === '.') continue;
+                if (part === '..') {
+                    baseParts.pop();
+                } else {
+                    baseParts.push(part);
+                }
+            }
+            return baseParts.join('/');
+        }
+
+        // Cargar y mostrar archivo .md en el modal
+        function cargarMdContent(filePath, titleLabel = '') {
+            currentMdPath = filePath;
+            mdTitleText.textContent = titleLabel || filePath.split('/').pop() || 'Documento Markdown';
+            mdContent.innerHTML = '<p style="color: var(--muted);">Cargando documento...</p>';
+            mdViewer.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            fetch(`md.php?file=${encodeURIComponent(filePath)}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`No se pudo abrir el archivo (HTTP ${response.status})`);
+                    }
+                    return response.text();
+                })
+                .then(content => {
+                    mdContent.innerHTML = renderMarkdownToHtml(content);
+                })
+                .catch(error => {
+                    mdContent.innerHTML = `<p style="color: #ef4444;">Error cargando el archivo .md: ${escapeHtml(error.message)}</p>`;
+                });
+        }
+
+        function closeMdViewer() {
+            mdViewer.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Actualiza textos y estado accesible de una flecha de colapso
+        function updateCollapseButtonState(button, isCollapsed, kind) {
+            const label = button.getAttribute('data-folder-label') || '';
+            button.setAttribute('aria-expanded', String(!isCollapsed));
+            button.title = `${isCollapsed ? 'Expandir' : 'Colapsar'} ${kind}`;
+            button.setAttribute(
+                'aria-label',
+                `${isCollapsed ? 'Expandir' : 'Colapsar'} ${kind}${label ? ' ' + label : ''}`
+            );
+        }
+
+        // Delegación de eventos en galería (imagen, tarjeta de video, lupa/play, copiar y botones .md)
+        foldersList.addEventListener('click', (e) => {
+            const collapseBtn = e.target.closest('.folder-collapse-btn');
+            if (collapseBtn) {
+                e.stopPropagation();
+                const card = collapseBtn.closest('.folder-card');
+                if (!card) return;
+                const isCollapsed = card.classList.toggle('is-collapsed');
+                updateCollapseButtonState(collapseBtn, isCollapsed, 'carpeta');
+                return;
+            }
+
+            const subCollapseBtn = e.target.closest('.subfolder-collapse-btn');
+            if (subCollapseBtn) {
+                e.stopPropagation();
+                const block = subCollapseBtn.closest('.subfolder-block');
+                if (!block) return;
+                const isCollapsed = block.classList.toggle('is-collapsed');
+                updateCollapseButtonState(subCollapseBtn, isCollapsed, 'subcarpeta');
+
+                // Ocultar también las subcarpetas descendientes mientras el grupo esté colapsado
+                const currentDepth = Number(block.getAttribute('data-depth') || 1);
+                let sibling = block.nextElementSibling;
+                while (sibling && sibling.classList.contains('subfolder-block')) {
+                    const siblingDepth = Number(sibling.getAttribute('data-depth') || 0);
+                    if (siblingDepth <= currentDepth) break;
+                    sibling.classList.toggle('is-hidden-by-parent', isCollapsed);
+                    sibling = sibling.nextElementSibling;
+                }
+                return;
+            }
+
+            const mdBtn = e.target.closest('.md-btn');
+            if (mdBtn) {
+                e.stopPropagation();
+                const path = mdBtn.getAttribute('data-md-path');
+                const title = mdBtn.getAttribute('data-md-title') || '';
+                if (path) cargarMdContent(path, title);
+                return;
+            }
+
+            const copyBtn = e.target.closest('.copy-icon');
+            if (copyBtn) {
+                e.stopPropagation();
+                const item = copyBtn.closest('.folder-image');
+                const src = item ? item.getAttribute('data-src') : '';
+                const videoFlag = Boolean(item && item.classList.contains('is-video'));
+                if (src) {
+                    if (videoFlag) {
+                        copyImageToClipboard(src, true);
+                    } else {
+                        toggleCopySelection(src, item.getAttribute('data-filename') || '');
+                    }
+                }
+                return;
+            }
+
+            const zoomOrPlayBtn = e.target.closest('.zoom-icon');
+            if (zoomOrPlayBtn) {
+                e.stopPropagation();
+                const item = zoomOrPlayBtn.closest('.folder-image');
+                const src = item ? item.getAttribute('data-src') : '';
+                if (src) toggleLightbox(src);
+                return;
+            }
+
+            const mediaCard = e.target.closest('.folder-image');
+            if (mediaCard) {
+                const src = mediaCard.getAttribute('data-src');
+                if (src) toggleLightbox(src);
+            }
+        });
+
+        // Soporte accesible con teclado (Enter / Space) en iconos lupa/play y copiar
+        foldersList.addEventListener('keydown', (e) => {
+            if (e.key !== 'Enter' && e.key !== ' ') return;
+            const actionIcon = e.target.closest('.zoom-icon, .copy-icon');
+            if (!actionIcon) return;
+            e.preventDefault();
+            actionIcon.click();
+        });
+
+        // Delegación para botones .md de la raíz del proyecto
+        if (rootDocs) {
+            rootDocs.addEventListener('click', (e) => {
+                const mdBtn = e.target.closest('.md-btn');
+                if (!mdBtn) return;
+                const path = mdBtn.getAttribute('data-md-path');
+                const title = mdBtn.getAttribute('data-md-title') || '';
+                if (path) cargarMdContent(path, title);
+            });
+        }
+
+        // Interceptar enlaces internos .md dentro del visor Markdown para abrirlos sin salir de la SPA
+        mdContent.addEventListener('click', (e) => {
+            const anchor = e.target.closest('a');
+            if (!anchor) return;
+            const href = anchor.getAttribute('href') || '';
+            if (!href || /^https?:\/\//i.test(href) || href.startsWith('#')) return;
+            if (href.toLowerCase().endsWith('.md')) {
+                e.preventDefault();
+                const resolved = resolveRelativeMdPath(currentMdPath, href);
+                cargarMdContent(resolved, resolved);
+            }
+        });
+
+        // Cerrar modal .md (click + touch iOS)
+        mdClose.addEventListener('click', closeMdViewer);
+        mdClose.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            closeMdViewer();
+        }, { passive: false });
+
+        mdViewer.addEventListener('click', (e) => {
+            if (e.target === mdViewer) {
+                closeMdViewer();
+            }
+        });
+        mdViewer.addEventListener('touchend', (e) => {
+            if (e.target === mdViewer) {
+                e.preventDefault();
+                closeMdViewer();
+            }
+        }, { passive: false });
+
+        // Inicializar estado persistido: filtro, búsqueda y posición de lectura
+        const initialState = resolveInitialState();
+        currentFilter = initialState.filter;
+        currentSearch = initialState.search;
+        pendingInitialScrollY = initialState.scrollY;
+        pendingInitialRenderCount = initialState.renderedCount;
+
+        filterCheckbox.checked = (currentFilter === 'reference');
+        filterLabel.classList.toggle('is-checked', filterCheckbox.checked);
+        if (searchInput) {
+            searchInput.value = currentSearch;
+        }
+        if (searchClear) {
+            searchClear.classList.toggle('visible', currentSearch.length > 0);
+        }
+
+        // Renderizar el historial (queda oculto hasta enfocar el buscador)
+        renderSearchHistory();
+
+        // Guardar la posición con throttling y también al cerrar u ocultar la pestaña
+        window.addEventListener('scroll', scheduleScrollSave, { passive: true });
+        window.addEventListener('pagehide', saveScrollPosition);
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden') {
+                saveScrollPosition();
+            }
+        });
+
+        // Inicialización de filtro checkbox
+        filterCheckbox.addEventListener('change', () => toggleFilter(filterCheckbox));
+
+        // Inicialización de buscador
+        searchInput.addEventListener('input', filterBySearch);
+        searchClear.addEventListener('click', () => {
+            searchInput.value = '';
+            filterBySearch();
+            closeSearchHistory();
+            searchInput.focus();
+        });
+
+        // Combo box de búsquedas recientes
+        searchInput.addEventListener('focus', () => {
+            renderSearchHistory();
+            openSearchHistory();
+        });
+
+        searchInput.addEventListener('click', () => {
+            renderSearchHistory();
+            openSearchHistory();
+        });
+
+        searchInput.addEventListener('keydown', (e) => {
+            const isOpen = searchHistory && !searchHistory.hidden;
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (!isOpen) {
+                    openSearchHistory();
+                } else {
+                    const total = recentSearches.length;
+                    const next = searchHistoryActiveIndex + 1;
+                    setActiveHistoryItem(next >= total ? 0 : next);
+                }
+                return;
+            }
+            if (e.key === 'ArrowUp') {
+                if (!isOpen) return;
+                e.preventDefault();
+                const total = recentSearches.length;
+                const prev = searchHistoryActiveIndex - 1;
+                setActiveHistoryItem(prev < 0 ? total - 1 : prev);
+                return;
+            }
+            if (e.key === 'Enter') {
+                if (isOpen && searchHistoryActiveIndex >= 0) {
+                    e.preventDefault();
+                    const term = recentSearches[searchHistoryActiveIndex];
+                    if (term) applyRecentSearch(term);
+                    return;
+                }
+                recordRecentSearch(searchInput.value);
+                closeSearchHistory();
+                return;
+            }
+            if (e.key === 'Escape') {
+                if (isOpen) {
+                    e.preventDefault();
+                    closeSearchHistory();
+                }
+                return;
+            }
+            if (e.key === 'Tab') {
+                closeSearchHistory();
+            }
+        });
+
+        // Mantiene el foco del input al pulsar una opción del historial
+        if (searchHistory) {
+            searchHistory.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+            });
+            searchHistory.addEventListener('click', (e) => {
+                const item = e.target.closest('.search-history-item');
+                if (!item) return;
+                const term = item.getAttribute('data-search-term') || '';
+                if (term) applyRecentSearch(term);
+            });
+        }
+
+        // Registra la búsqueda al abandonar el campo y cierra el combo
+        searchInput.addEventListener('blur', () => {
+            setTimeout(() => {
+                const active = document.activeElement;
+                if (active !== searchInput && !(searchHistory && searchHistory.contains(active))) {
+                    closeSearchHistory();
+                }
+            }, 120);
+            recordRecentSearch(searchInput.value);
+        });
+
+        // Cerrar el combo al hacer clic fuera del buscador
+        document.addEventListener('click', (e) => {
+            if (!searchBox || searchBox.contains(e.target)) return;
+            closeSearchHistory();
+        });
+
+        // Guardar también la búsqueda actual al cerrar u ocultar la pestaña
+        window.addEventListener('pagehide', () => {
+            if (searchInput) recordRecentSearch(searchInput.value);
+        });
+
+        // Barra de imágenes seleccionadas para copiar en conjunto
+        if (copyTrayCopyBtn) {
+            copyTrayCopyBtn.addEventListener('click', () => {
+                writeCopySelectionToClipboard();
+            });
+        }
+        if (copyTrayClearBtn) {
+            copyTrayClearBtn.addEventListener('click', clearCopySelection);
+        }
+
+        // Mantener compensación exacta del header fijo en desktop y móvil
+        updateHeaderOffset();
+        window.addEventListener('resize', updateHeaderOffset);
+        if ('ResizeObserver' in window && appHeader) {
+            new ResizeObserver(updateHeaderOffset).observe(appHeader);
+        }
+
+        // Inicializar lightbox y cargar carpetas
+        initLightbox();
+        cargarFolders();
+    </script>
+
+    <!-- Mini Google Analytics: visita anónima, sin cookies de terceros -->
+    <script>
+    (function () {
+        'use strict';
+        var endpoint = 'administracion/track.php';
+        var visitante = null;
+
+        try {
+            visitante = localStorage.getItem('sublilaservinyl_vid');
+        } catch (_) { /* almacenamiento bloqueado */ }
+
+        if (!visitante) {
+            visitante = 'v_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 10);
+            try {
+                localStorage.setItem('sublilaservinyl_vid', visitante);
+            } catch (_) { /* ignorar */ }
+        }
+
+        var ultimaRuta = null;
+
+        function rutaActual() {
+            var hash = window.location.hash || '';
+            return hash ? hash.replace(/^#/, '') : 'index.html';
+        }
+
+        function enviarVisita() {
+            var ruta = rutaActual();
+            if (ruta === ultimaRuta) return;
+            ultimaRuta = ruta;
+
+            var datos = {
+                v: visitante,
+                ruta: ruta,
+                ref: document.referrer || '',
+                idioma: navigator.language || '',
+                pantalla: (window.screen ? screen.width + 'x' + screen.height : '')
+            };
+            var cuerpo = JSON.stringify(datos);
+
+            try {
+                if (navigator.sendBeacon) {
+                    var blob = new Blob([cuerpo], { type: 'application/json' });
+                    if (navigator.sendBeacon(endpoint, blob)) return;
+                }
+                fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: cuerpo,
+                    keepalive: true,
+                    credentials: 'omit'
+                }).catch(function () { /* analítica no bloquea la web */ });
+            } catch (_) { /* ignorar */ }
+        }
+
+        if (document.readyState === 'complete') {
+            setTimeout(enviarVisita, 0);
+        } else {
+            window.addEventListener('load', enviarVisita, { once: true });
+        }
+        window.addEventListener('hashchange', enviarVisita);
+    })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="390" viewBox="0 0 1200 390" role="img" aria-labelledby="titulo descripcion">
+  <title id="titulo">SUBLILASERVINYL — versión monocromática blanca</title>
+  <desc id="descripcion">Logotipo de Sublilaservinyl: monograma S dentro de un anillo dorado y wordmark en dos líneas, sin fondo.</desc>
+  <g id="monograma-s" fill="none">
+    <circle cx="290" cy="195" r="150" stroke="#C5A15B" stroke-width="6"/>
+    <text x="290" y="278" text-anchor="middle" font-family="Cormorant Garamond, Georgia, 'Times New Roman', serif" font-size="230" fill="#FFFFFF">S</text>
+  </g>
+  <g id="wordmark-sublilaservinyl">
+    <text x="500" y="185" font-family="Cormorant Garamond, Georgia, 'Times New Roman', serif" font-size="108" letter-spacing="10" fill="#FFFFFF">SUBLILA</text>
+    <text x="500" y="305" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="96" font-weight="600" letter-spacing="28" fill="#FFFFFF">SERVINYL</text>
+    <text x="502" y="362" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="30" letter-spacing="12" fill="#C5A15B">APLIQUES TEXTILES</text>
+  </g>
+</svg>

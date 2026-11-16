@@ -1,0 +1,6 @@
+# Bloquea el acceso web directo a los archivos de log
+Require all denied
+<IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+</IfModule>

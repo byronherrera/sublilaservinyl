@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240" role="img" aria-labelledby="titulo descripcion">
+  <title id="titulo">SUBLILASERVINYL — monograma dorado</title>
+  <desc id="descripcion">Símbolo independiente de la inicial S dentro de un anillo dorado, sin fondo.</desc>
+  <g id="monograma-s" fill="none">
+    <circle cx="120" cy="120" r="108" stroke="#C5A15B" stroke-width="6"/>
+    <text x="120" y="178" text-anchor="middle" font-family="Cormorant Garamond, Georgia, 'Times New Roman', serif" font-size="170" fill="#C5A15B">S</text>
+  </g>
+</svg>

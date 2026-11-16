@@ -1,0 +1,101 @@
+# ==================================================================
+# Sublilaservinyl · endurecimiento de Apache
+# ==================================================================
+
+# Nunca listar directorios (los listados exponían /proyectos, assets, etc.)
+Options -Indexes
+
+DirectoryIndex app/index.html index.html index.php
+
+AddDefaultCharset UTF-8
+
+# ------------------------------------------------------------------
+# Bloquear .git y archivos internos/sensibles
+# ------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # .git completo (config, HEAD, objects, logs…)
+    RewriteRule (^|/)\.git(/|$) - [F,L,NC]
+
+    # Directorios de datos y logs del panel
+    RewriteRule ^app/administracion/(data|logs)(/|$) - [F,L,NC]
+
+    # Datos del módulo biométrico
+    RewriteRule ^biometrico/data(/|$) - [F,L,NC]
+
+    # Datos internos del Medidor de Ruido (SQLite)
+    RewriteRule ^medidor-ruido/api/data(/|$) - [F,L,NC]
+</IfModule>
+
+# Refuerzo si mod_rewrite no estuviera disponible.
+<IfModule mod_alias.c>
+    RedirectMatch 403 (?i)/\.git(/|$)
+    RedirectMatch 403 (?i)/app/administracion/(?:data|logs)(/|$)
+    RedirectMatch 403 (?i)/biometrico/data(/|$)
+    RedirectMatch 403 (?i)/medidor-ruido/api/data(/|$)
+</IfModule>
+
+# Cualquier archivo oculto (dotfiles)
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+# Documentación, scripts, bases de datos, logs y hojas de cálculo
+<FilesMatch "(?i)\.(env|sqlite|sqlite-wal|sqlite-shm|db|log|log\.[0-9]+|md|markdown|bat|cmd|ps1|sh|sql|bak|old|orig|ini|xlsx|xls|csv|json|lock)$">
+    Require all denied
+</FilesMatch>
+
+# Nunca servir el archivo de entorno de primer acceso
+<FilesMatch "(?i)^primer-acceso\.(env|txt)$">
+    Require all denied
+</FilesMatch>
+
+# ------------------------------------------------------------------
+# Cabeceras de seguridad
+# ------------------------------------------------------------------
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "DENY"
+    Header always unset X-Powered-By
+    Header always set Referrer-Policy "no-referrer"
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=(), usb=()"
+    Header always set Cross-Origin-Opener-Policy "same-origin"
+
+    # CSP de la app pública. El panel PHP envía su propia CSP con nonce.
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'" "expr=!%{REQUEST_URI} =~ m#/app/administracion/#"
+
+    # Los SVG se sirven en sandbox: aunque un archivo malicioso llegase a
+    # disco, el navegador no ejecuta scripts al abrirlo directamente.
+    <FilesMatch "(?i)\.svg$">
+        Header always set Content-Security-Policy "sandbox; default-src 'none'; style-src 'unsafe-inline'; img-src data:"
+        Header always set X-Content-Type-Options "nosniff"
+        Header always set Content-Disposition "inline"
+    </FilesMatch>
+
+    # HSTS solo cuando la petición es HTTPS.
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS
+</IfModule>
+
+# ------------------------------------------------------------------
+# PHP en producción: sin errores en pantalla y sin versión expuesta
+# ------------------------------------------------------------------
+<IfModule mod_php.c>
+    php_flag display_errors Off
+    php_flag display_startup_errors Off
+    php_flag log_errors On
+    php_flag session.use_strict_mode On
+    php_flag session.use_only_cookies On
+    php_flag expose_php Off
+    php_value error_reporting "E_ALL & ~E_DEPRECATED & ~E_STRICT"
+</IfModule>
+
+<IfModule php_module>
+    php_flag display_errors Off
+    php_flag display_startup_errors Off
+    php_flag log_errors On
+    php_flag session.use_strict_mode On
+    php_flag session.use_only_cookies On
+    php_flag expose_php Off
+    php_value error_reporting "E_ALL & ~E_DEPRECATED & ~E_STRICT"
+</IfModule>

@@ -1,0 +1,5 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# PDF offsets depend on their exact bytes, even when streams use ASCII85.
+*.pdf binary

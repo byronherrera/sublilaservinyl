@@ -1,0 +1,7 @@
+# Datos sensibles del panel: no se versionan
+data/*.sqlite
+data/*.sqlite-*
+data/*.env
+data/*.txt
+logs/*.log
+logs/*.log.*
