@@ -1,6 +1,9 @@
 <?php
-// Redirecciona de forma permanente (301) a la subcarpeta app
-header("HTTP/1.1 301 Moved Permanently");
-header("Location: https://byronherrera.desarrollandoenphp.com/sublilaservinyl/app/");
-exit();
-?>
+/**
+ * Redirige Laravel desde la raíz
+ * Coloca este archivo en /public_html/index.php
+ */
+define('LARAVEL_START', microtime(true));
+
+// Apunta a la carpeta public de tu backend
+require_once __DIR__ . '/backend/public/index.php';
